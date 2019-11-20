@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.mapper.UserMapper" >
+
+  <!-- 批量插入 BEFORE适合使用在设置UUID的情况，AFTER适合使用在返回自增id的情况-->
+  <insert id ="insertUserBatch" parameterType="java.util.List" >
+    <selectKey resultType ="java.lang.Integer" keyProperty= "id"  order= "AFTER">
+      SELECT LAST_INSERT_ID() AS value
+    </selectKey >
+    insert into user
+    (id, username, password, realname)
+    values
+    <foreach collection ="list" item="user" index= "index" separator =",">
+      (
+      #{user.id},
+      #{user.username},
+      #{user.password},
+      #{user.realname}
+      )
+    </foreach >
+  </insert >
+  <!-- 批量删除 -->
+  <delete id="deleteUserBatch">
+    <!-- delete from emp where empno in(7980,7981) -->
+    delete from user where id in
+    <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+      #{item}
+    </foreach>
+  </delete>
+
+
+
+</mapper>
