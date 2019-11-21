@@ -38,5 +38,8 @@ public class UserService {
 //        userMapper.insert(record);
     }
 
+    public void insertUserBatch(List<User> list){
+        userMapper.insertUserBatch(list);
+    }
 
 }

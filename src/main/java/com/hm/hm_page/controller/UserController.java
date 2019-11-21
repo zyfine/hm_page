@@ -74,7 +74,16 @@ public class UserController {
         userService.insertUser(user);
         return "redirect:/sys/userlist";
     }
-
+    @PostMapping(value = "/saveBatch")
+    public ModelAndView saveBatchUser(User user) throws Exception {
+        ModelAndView mv = new ModelAndView("success");
+        user.setPassword("14235245");
+        List<User> list = new ArrayList<User>();
+        list.add(user);
+        list.add(user);
+        userService.insertUserBatch(list);
+        return mv;
+    }
 
 
 }
