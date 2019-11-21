@@ -57,6 +57,22 @@ public class HmController {
         return mv;
     }
     /**
+     * @param
+     * @Description: 列表显示全部book
+     * @return:
+     * @Author: zyfine
+     * @Date: 2019/11/21 10:32
+     */
+    @RequestMapping(value = "/all", method = RequestMethod.GET)
+    public ModelAndView getAllTitle(@RequestParam(value = "pageNum",defaultValue="1") int pageNum ) throws Exception {
+        PageHelper.startPage(pageNum,10);
+        ModelAndView mv = new ModelAndView("/hm/search");
+        List<HmBook> booklist = hmBookService.getAllTitle();
+        PageInfo<User> pageInfo=new PageInfo(booklist,10);
+        mv.addObject("booklist", booklist);
+        return mv;
+    }
+    /**
      * @param id
      * @Description: 获得图书明细和章节
      * @return:

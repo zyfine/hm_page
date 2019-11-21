@@ -50,6 +50,19 @@ public class HmBookService {
         e.setOrderByClause(" hot desc ");
         return list;
     }
+    /**
+     * @param null
+     * @Description: 获得所有book
+     * @return:
+     * @Author: zyfine
+     * @Date: 2019/11/21 10:30
+     */
+    public List<HmBook> getAllTitle(){
+        HmBookExample e = new HmBookExample();
+        List<HmBook> list = hmBookMapper.selectByExample(e);
+        e.setOrderByClause(" latest_time desc ");
+        return list;
+    }
 
     /**
      * @param num 数量

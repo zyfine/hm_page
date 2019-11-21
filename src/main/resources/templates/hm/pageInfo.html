@@ -1,10 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout= "http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
-    <meta charset="UTF-8">
+    <meta content="text/html;charset=UTF-8"/>
     <title>Title</title>
 </head>
 <body>
 
+<table border="2">
+    <tr th:each="page:${pageList}" >
+        <td>
+            <img  th:src="${page.url}" />
+        </td>
+    </tr>
+</table>
 </body>
 </html>
