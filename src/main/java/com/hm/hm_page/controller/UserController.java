@@ -28,7 +28,7 @@ public class UserController {
         mv.addObject("member", userinfo);
         return mv;
     }
-    //    http://localhost:8080/testBoot/getAll
+    //    http://localhost:8000/testBoot/getAll
     @RequestMapping(value = "/getAll", method = RequestMethod.GET)
     public ModelAndView getUserlist() throws Exception {
         ModelAndView mv = new ModelAndView("/sys/userlist");

@@ -3,37 +3,37 @@
 <mapper namespace="com.hm.hm_page.mapper.CommonMapper" >
 
     <!-- 分页查询列表oracle -->
-    <select id="pageDataListOracle"  parameterType="java.util.HashMap" resultMap="java.util.HashMap">
+    <select id="pageDataListOracle"  parameterType="java.util.HashMap" resultType="java.util.HashMap">
         SELECT *
         FROM (SELECT A.*, ROWNUM R
         FROM (
-        $sql$
+        ${sql}
         ) A
         WHERE ROWNUM <![CDATA[ <= ]]> #to# ) B
-        WHERE R > #from#
+        WHERE R > #{from}
         <if test="orderByClause != null" >
             order by ${orderByClause}
         </if>
     </select>
 
-    <select id="pageDataListMysql" parameterType="java.util.HashMap" resultMap="java.util.HashMap">
-        select * from ($sql$) limit #{currIndex} , #{pageSize}
+    <select id="pageDataListMysql" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+        select * from (${sql}) limit #{currIndex} , #{pageSize}
     </select>
 
-    <select id="pageDataNum"  parameterType="java.lang.String" resultMap="java.lang.Integer">
-  	    SELECT count(*) from ($sql$)
+    <select id="pageDataNum"  parameterType="java.lang.String" resultType="java.lang.Integer">
+  	    SELECT count(*) from (${sql})
     </select>
     <!-- 通用sql查询列表 -->
-    <select id="selectDataBySql"  parameterType="java.lang.String" resultMap="java.util.HashMap">
-		$sql$
+    <select id="selectDataBySql"  parameterType="java.lang.String" resultType="java.util.HashMap">
+		${sql}
     </select>
     <!-- 通用sql删除-->
     <delete id="deleteData" parameterType="java.lang.String" >
-	    $sql$
+	    ${sql}
     </delete>
     <!-- 通用修改语句-->
     <update id="updateData" parameterType="java.lang.String" >
-	    $sql$
+	    ${sql}
     </update>
 
 

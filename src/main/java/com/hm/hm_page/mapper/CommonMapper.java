@@ -1,4 +1,4 @@
-package com.hm.hm_page.common;
+package com.hm.hm_page.mapper;
 
 import com.hm.hm_page.entity.HmBook;
 import com.hm.hm_page.entity.HmBookExample;
