@@ -3,22 +3,22 @@ package com.hm.hm_page.util;
 import java.io.File;
 
 /**
- * ɾ���ļ���Ŀ¼
+ * 删除文件和目录
  *
  */
 public class DeleteFileUtil {
 
     /**
-     * ɾ���ļ����������ļ����ļ���
+     * 删除文件，可以是文件或文件夹
      *
      * @param fileName
-     *            Ҫɾ�����ļ���
-     * @return ɾ���ɹ�����true�����򷵻�false
+     *            要删除的文件名
+     * @return 删除成功返回true，否则返回false
      */
     public static boolean delete(String fileName) {
         File file = new File(fileName);
         if (!file.exists()) {
-            System.out.println("ɾ���ļ�ʧ��:" + fileName + "�����ڣ�");
+            System.out.println("删除文件失败:" + fileName + "不存在！");
             return false;
         } else {
             if (file.isFile())
@@ -29,57 +29,57 @@ public class DeleteFileUtil {
     }
 
     /**
-     * ɾ�������ļ�
+     * 删除单个文件
      *
      * @param fileName
-     *            Ҫɾ�����ļ����ļ���
-     * @return �����ļ�ɾ���ɹ�����true�����򷵻�false
+     *            要删除的文件的文件名
+     * @return 单个文件删除成功返回true，否则返回false
      */
     public static boolean deleteFile(String fileName) {
         File file = new File(fileName);
-        // ����ļ�·������Ӧ���ļ����ڣ�������һ���ļ�����ֱ��ɾ��
+        // 如果文件路径所对应的文件存在，并且是一个文件，则直接删除
         if (file.exists() && file.isFile()) {
             if (file.delete()) {
-                System.out.println("ɾ�������ļ�" + fileName + "�ɹ���");
+                System.out.println("删除单个文件" + fileName + "成功！");
                 return true;
             } else {
-                System.out.println("ɾ�������ļ�" + fileName + "ʧ�ܣ�");
+                System.out.println("删除单个文件" + fileName + "失败！");
                 return false;
             }
         } else {
-            System.out.println("ɾ�������ļ�ʧ�ܣ�" + fileName + "�����ڣ�");
+            System.out.println("删除单个文件失败：" + fileName + "不存在！");
             return false;
         }
     }
 
     /**
-     * ɾ��Ŀ¼��Ŀ¼�µ��ļ�
+     * 删除目录及目录下的文件
      *
      * @param dir
-     *            Ҫɾ����Ŀ¼���ļ�·��
-     * @return Ŀ¼ɾ���ɹ�����true�����򷵻�false
+     *            要删除的目录的文件路径
+     * @return 目录删除成功返回true，否则返回false
      */
     public static boolean deleteDirectory(String dir) {
-        // ���dir�����ļ��ָ�����β���Զ�����ļ��ָ���
+        // 如果dir不以文件分隔符结尾，自动添加文件分隔符
         if (!dir.endsWith(File.separator))
             dir = dir + File.separator;
         File dirFile = new File(dir);
-        // ���dir��Ӧ���ļ������ڣ����߲���һ��Ŀ¼�����˳�
+        // 如果dir对应的文件不存在，或者不是一个目录，则退出
         if ((!dirFile.exists()) || (!dirFile.isDirectory())) {
-            System.out.println("ɾ��Ŀ¼ʧ�ܣ�" + dir + "�����ڣ�");
+            System.out.println("删除目录失败：" + dir + "不存在！");
             return false;
         }
         boolean flag = true;
-        // ɾ���ļ����е������ļ�������Ŀ¼
+        // 删除文件夹中的所有文件包括子目录
         File[] files = dirFile.listFiles();
         for (int i = 0; i < files.length; i++) {
-            // ɾ�����ļ�
+            // 删除子文件
             if (files[i].isFile()) {
                 flag = DeleteFileUtil.deleteFile(files[i].getAbsolutePath());
                 if (!flag)
                     break;
             }
-            // ɾ����Ŀ¼
+            // 删除子目录
             else if (files[i].isDirectory()) {
                 flag = DeleteFileUtil.deleteDirectory(files[i]
                         .getAbsolutePath());
@@ -88,12 +88,12 @@ public class DeleteFileUtil {
             }
         }
         if (!flag) {
-            System.out.println("ɾ��Ŀ¼ʧ�ܣ�");
+            System.out.println("删除目录失败！");
             return false;
         }
-        // ɾ����ǰĿ¼
+        // 删除当前目录
         if (dirFile.delete()) {
-            System.out.println("ɾ��Ŀ¼" + dir + "�ɹ���");
+            System.out.println("删除目录" + dir + "成功！");
             return true;
         } else {
             return false;
@@ -101,15 +101,15 @@ public class DeleteFileUtil {
     }
 
     public static void main(String[] args) {
-//  // ɾ�������ļ�
+//  // 删除单个文件
 //  String file = "c:/test/test.txt";
 //  DeleteFileUtil.deleteFile(file);
 //  System.out.println();
-        // ɾ��һ��Ŀ¼
+        // 删除一个目录
         String dir = "D:/home/web/upload/upload/files";
         DeleteFileUtil.deleteDirectory(dir);
 //  System.out.println();
-//  // ɾ���ļ�
+//  // 删除文件
 //  dir = "c:/test/test0";
 //  DeleteFileUtil.delete(dir);
 

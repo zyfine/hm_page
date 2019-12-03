@@ -16,38 +16,38 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
 /*******************************************************************************
- * Description: ͼƬˮӡ������ 
+ * Description: 图片水印工具类
  * @author zengshunyao
  * @version 1.0
  */
 public class ImageRemarkUtil {
 
-    // ˮӡ͸����
+    // 水印透明度
     private static float alpha = 0.5f;
-    // ˮӡ����λ��
-    private static int positionWidth = 0;
-    // ˮӡ����λ��
-    private static int positionHeight = 100;
-    // ˮӡ��������
-    private static Font font = new Font("����", Font.BOLD, 100);
-    // ˮӡ������ɫ
+    // 水印横向位置
+    private static int positionWidth = 150;
+    // 水印纵向位置
+    private static int positionHeight = 300;
+    // 水印文字字体
+    private static Font font = new Font("宋体", Font.BOLD, 72);
+    // 水印文字颜色
     private static Color color = Color.red;
 
     /**
-     * 
+     *
      * @param alpha
-     *            ˮӡ͸����
+     *            水印透明度
      * @param positionWidth
-     *            ˮӡ����λ��
+     *            水印横向位置
      * @param positionHeight
-     *            ˮӡ����λ��
+     *            水印纵向位置
      * @param font
-     *            ˮӡ��������
+     *            水印文字字体
      * @param color
-     *            ˮӡ������ɫ
+     *            水印文字颜色
      */
     public static void setImageMarkOptions(float alpha, int positionWidth,
-            int positionHeight, Font font, Color color) {
+                                           int positionHeight, Font font, Color color) {
         if (alpha != 0.0f)
             ImageRemarkUtil.alpha = alpha;
         if (positionWidth != 0)
@@ -61,34 +61,34 @@ public class ImageRemarkUtil {
     }
 
     /**
-     * ��ͼƬ���ˮӡͼƬ
-     * 
+     * 给图片添加水印图片
+     *
      * @param iconPath
-     *            ˮӡͼƬ·��
+     *            水印图片路径
      * @param srcImgPath
-     *            ԴͼƬ·��
+     *            源图片路径
      * @param targerPath
-     *            Ŀ��ͼƬ·��
+     *            目标图片路径
      */
     public static void markImageByIcon(String iconPath, String srcImgPath,
-            String targerPath) {
+                                       String targerPath) {
         markImageByIcon(iconPath, srcImgPath, targerPath, null);
     }
 
     /**
-     * ��ͼƬ���ˮӡͼƬ��������ˮӡͼƬ��ת�Ƕ�
-     * 
+     * 给图片添加水印图片、可设置水印图片旋转角度
+     *
      * @param iconPath
-     *            ˮӡͼƬ·��
+     *            水印图片路径
      * @param srcImgPath
-     *            ԴͼƬ·��
+     *            源图片路径
      * @param targerPath
-     *            Ŀ��ͼƬ·��
+     *            目标图片路径
      * @param degree
-     *            ˮӡͼƬ��ת�Ƕ�
+     *            水印图片旋转角度
      */
     public static void markImageByIcon(String iconPath, String srcImgPath,
-            String targerPath, Integer degree) {
+                                       String targerPath, Integer degree) {
         OutputStream os = null;
         try {
 
@@ -97,10 +97,10 @@ public class ImageRemarkUtil {
             BufferedImage buffImg = new BufferedImage(srcImg.getWidth(null),
                     srcImg.getHeight(null), BufferedImage.TYPE_INT_RGB);
 
-            // 1���õ����ʶ���
+            // 1、得到画笔对象
             Graphics2D g = buffImg.createGraphics();
 
-            // 2�����ö��߶εľ��״��Ե����
+            // 2、设置对线段的锯齿状边缘处理
             g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
                     RenderingHints.VALUE_INTERPOLATION_BILINEAR);
 
@@ -108,33 +108,33 @@ public class ImageRemarkUtil {
                     srcImg.getScaledInstance(srcImg.getWidth(null),
                             srcImg.getHeight(null), Image.SCALE_SMOOTH), 0, 0,
                     null);
-            // 3������ˮӡ��ת
+            // 3、设置水印旋转
             if (null != degree) {
                 g.rotate(Math.toRadians(degree),
                         (double) buffImg.getWidth() / 2,
                         (double) buffImg.getHeight() / 2);
             }
 
-            // 4��ˮӡͼƬ��·�� ˮӡͼƬһ��Ϊgif����png�ģ�����������͸����
+            // 4、水印图片的路径 水印图片一般为gif或者png的，这样可设置透明度
             ImageIcon imgIcon = new ImageIcon(iconPath);
 
-            // 5���õ�Image����
+            // 5、得到Image对象。
             Image img = imgIcon.getImage();
 
             g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_ATOP,
                     alpha));
 
-            // 6��ˮӡͼƬ��λ��
+            // 6、水印图片的位置
             g.drawImage(img, positionWidth, positionHeight, null);
             g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER));
-            // 7���ͷ���Դ
+            // 7、释放资源
             g.dispose();
 
-            // 8������ͼƬ
+            // 8、生成图片
             os = new FileOutputStream(targerPath);
             ImageIO.write(buffImg, "JPG", os);
 
-            System.out.println("ͼƬ������ˮӡͼƬ");
+            System.out.println("图片完成添加水印图片");
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -149,70 +149,70 @@ public class ImageRemarkUtil {
     }
 
     /**
-     * ��ͼƬ���ˮӡ����
-     * 
+     * 给图片添加水印文字
+     *
      * @param logoText
-     *            ˮӡ����
+     *            水印文字
      * @param srcImgPath
-     *            ԴͼƬ·��
+     *            源图片路径
      * @param targerPath
-     *            Ŀ��ͼƬ·��
+     *            目标图片路径
      */
     public static void markImageByText(String logoText, String srcImgPath,
-            String targerPath) {
+                                       String targerPath) {
         markImageByText(logoText, srcImgPath, targerPath, null);
     }
 
     /**
-     * ��ͼƬ���ˮӡ���֡�������ˮӡ���ֵ���ת�Ƕ�
-     * 
+     * 给图片添加水印文字、可设置水印文字的旋转角度
+     *
      * @param logoText
      * @param srcImgPath
      * @param targerPath
      * @param degree
      */
     public static void markImageByText(String logoText, String srcImgPath,
-            String targerPath, Integer degree) {
+                                       String targerPath, Integer degree) {
 
         InputStream is = null;
         OutputStream os = null;
         try {
-            // 1��ԴͼƬ
+            // 1、源图片
             Image srcImg = ImageIO.read(new File(srcImgPath));
             BufferedImage buffImg = new BufferedImage(srcImg.getWidth(null),
                     srcImg.getHeight(null), BufferedImage.TYPE_INT_RGB);
 
-            // 2���õ����ʶ���
+            // 2、得到画笔对象
             Graphics2D g = buffImg.createGraphics();
-            // 3�����ö��߶εľ��״��Ե����
+            // 3、设置对线段的锯齿状边缘处理
             g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
                     RenderingHints.VALUE_INTERPOLATION_BILINEAR);
             g.drawImage(
                     srcImg.getScaledInstance(srcImg.getWidth(null),
                             srcImg.getHeight(null), Image.SCALE_SMOOTH), 0, 0,
                     null);
-            // 4������ˮӡ��ת
+            // 4、设置水印旋转
             if (null != degree) {
                 g.rotate(Math.toRadians(degree),
                         (double) buffImg.getWidth() / 2,
                         (double) buffImg.getHeight() / 2);
             }
-            // 5������ˮӡ������ɫ
+            // 5、设置水印文字颜色
             g.setColor(color);
-            // 6������ˮӡ����Font
+            // 6、设置水印文字Font
             g.setFont(font);
-            // 7������ˮӡ����͸����
+            // 7、设置水印文字透明度
             g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_ATOP,
                     alpha));
-            // 8����һ����->���õ����ݣ�������������->������ͼƬ�ϵ�����λ��(x,y)
+            // 8、第一参数->设置的内容，后面两个参数->文字在图片上的坐标位置(x,y)
             g.drawString(logoText, positionWidth, positionHeight);
-            // 9���ͷ���Դ
+            // 9、释放资源
             g.dispose();
-            // 10������ͼƬ
+            // 10、生成图片
             os = new FileOutputStream(targerPath);
             ImageIO.write(buffImg, "JPG", os);
 
-            System.out.println("ͼƬ������ˮӡ����");
+            System.out.println("图片完成添加水印文字");
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -233,31 +233,38 @@ public class ImageRemarkUtil {
     }
 
     public static void main(String[] args) {
-        String srcImgPath = "/Users/zyfine/Desktop/hm-test2/011-��Ԫͨ��/1-10.PDF_img/1.jpg";
-        String logoText = "��ӭ�ۿ�app";
+        String srcImgPath = "/Users/zyfine/Desktop/hm-test2/011-??????/1-10.PDF_img/1.jpg";
+        String logoText = "水印测试";
 //        String iconPath = "d:/2.jpg";
 
-        String targerTextPath = "/Users/zyfine/Desktop/hm-test2/011-��Ԫͨ��/1-10.PDF_img/1_test1.jpg";
-//        String targerTextPath2 = "/Users/zyfine/Desktop/hm-test 2/011-��Ԫͨ��/1-10.PDF_img/1_test2.jpg";
+        String targerTextPath = "/Users/zyfine/Desktop/hm-test2/011-??????/1-10.PDF_img/1_test1.jpg";
+//        String targerTextPath2 = "/Users/zyfine/Desktop/hm-test 2/011-??????/1-10.PDF_img/1_test2.jpg";
 
 //        String targerIconPath = "d:/qie_icon.jpg";
 //        String targerIconPath2 = "d:/qie_icon_rotate.jpg";
 
-        System.out.println("��ͼƬ���ˮӡ���ֿ�ʼ...");
-        // ��ͼƬ���ˮӡ����
+        System.out.println("给图片添加水印文字开始...");
+        // 给图片添加水印文字
         markImageByText(logoText, srcImgPath, targerTextPath);
-        // ��ͼƬ���ˮӡ����,ˮӡ������ת-45
-//        markImageByText(logoText, srcImgPath, targerTextPath2, 45);
-        System.out.println("��ͼƬ���ˮӡ���ֽ���...");
+        // 给图片添加水印文字,水印文字旋转-45
+//        markImageByText(logoText, srcImgPath, targerTextPath2, -45);
+        System.out.println("给图片添加水印文字结束...");
 
-//        System.out.println("��ͼƬ���ˮӡͼƬ��ʼ...");
+//        System.out.println("给图片添加水印图片开始...");
 //        setImageMarkOptions(0.3f, 1, 1, null, null);
-//        // ��ͼƬ���ˮӡͼƬ
+//        // 给图片添加水印图片
 //        markImageByIcon(iconPath, srcImgPath, targerIconPath);
-//        // ��ͼƬ���ˮӡͼƬ,ˮӡͼƬ��ת-45
+//        // 给图片添加水印图片,水印图片旋转-45
 //        markImageByIcon(iconPath, srcImgPath, targerIconPath2, -45);
-//        System.out.println("��ͼƬ���ˮӡͼƬ����...");
+//        System.out.println("给图片添加水印图片结束...");
 
     }
 
 }
+
+
+
+
+
+
+
