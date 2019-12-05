@@ -2,16 +2,15 @@ package com.hm.hm_page.util;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
- 
+import java.util.*;
+
+import com.hm.hm_page.service.HmBookService;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDResources;
 import org.apache.pdfbox.pdmodel.graphics.xobject.PDXObjectImage;
- 
+import org.springframework.beans.factory.annotation.Autowired;
+
 /**
  * 提取PDF中的图片
  * pdfbox 版本 1.8.13
@@ -19,6 +18,11 @@ import org.apache.pdfbox.pdmodel.graphics.xobject.PDXObjectImage;
  * 2018/05/24
  */
 public class PDF2Image {
+
+
+	@Autowired
+	private HmBookService hmBookService;
+
 	/**
 	 * 提取
 	 * @param file			PDF文件
@@ -29,10 +33,13 @@ public class PDF2Image {
 		boolean result = true;
 		
 		try{
-			PDDocument document = PDDocument.load(file);  
+			PDDocument document = null;
+			document = PDDocument.load(file);
 			 
-		 	List<PDPage> pages = document.getDocumentCatalog().getAllPages();
-			Iterator<PDPage> iter = pages.iterator();
+		 	List<PDPage> pages = null;
+			pages = document.getDocumentCatalog().getAllPages();
+			Iterator<PDPage> iter = null;
+			iter = pages.iterator();
 			int count = 0;
 			while( iter.hasNext()){
 			    PDPage page = (PDPage)iter.next();
@@ -43,25 +50,31 @@ public class PDF2Image {
 			    Map<String, PDXObjectImage> images = resources.getImages();
 			    if(images != null)
 			    {
-			        Iterator<String> imageIter = images.keySet().iterator();
+					Iterator<String> imageIter = null;
+					imageIter = images.keySet().iterator();
 			        while(imageIter.hasNext())
 			        {
 			        	count++;
 			            String key = (String)imageIter.next();
-			            PDXObjectImage image = (PDXObjectImage)images.get( key );
+			            PDXObjectImage image = null;
+			            image = (PDXObjectImage)images.get( key );
 			            String name = count+"";	// 图片文件名
 			            try{
 				            System.out.println("保存图片地址："+targetFolder + name);
 							image.write2file(targetFolder + name);		// 保存图片
-							File file0 = new File(targetFolder + name+".png");
+							File file0 = null;
+							file0 = new File(targetFolder + name+".png");
 							if(file0.length()<18583 ){//小于18583字节的就删除
 								DeleteFileUtil.deleteFile(targetFolder + name+".png");
 							}
+							file0 = null;
 			            }catch(Exception ex){
 			            	continue;
-			            }				
+			            }
+						image = null;
 			        }
 			    }
+				resources = null;
 			}
 		} catch(IOException ex){
 			ex.printStackTrace();
@@ -84,7 +97,8 @@ public class PDF2Image {
 		if(list!=null&&list.length>0){
 			for (String str : list) {//循环子文件夹
 				String cbasePath = basePath+File.separator+str;
-				File file = new File(cbasePath);
+				File file = null;
+				file = new File(cbasePath);
 				if(file.isDirectory()){//判断是否文件夹
 					System.out.println("开始处理（"+str+"）文件夹");
 					String[] list2=new File(cbasePath).list();
@@ -97,12 +111,13 @@ public class PDF2Image {
 								File jpgpath = new File(cbasePath+File.separator+name+"_img");
 								if(!jpgpath.exists()){//不存在则创建
 									jpgpath.mkdirs();
-									
-									File pdffile = new File(cbasePath+File.separator+name);
+									File pdffile = null;
+									pdffile = new File(cbasePath+File.separator+name);
 									String targerFolder = cbasePath+File.separator+name+"_img"+File.separator;
 									System.out.println("pdf路径："+cbasePath+File.separator+name);
 									System.out.println("保存文件夹路径："+targerFolder);
 									extractImages(pdffile, targerFolder);
+									pdffile = null;
 								}else{
 									System.out.println(name+"_img已经提取过图片");
 								}
@@ -110,6 +125,7 @@ public class PDF2Image {
 						}
 					}
 				}
+				file = null;
 			}
 		}
 	}
@@ -191,19 +207,25 @@ public class PDF2Image {
 		String[] list=new File(basePath).list();
 		System.out.println("文件个数："+list.length);
 		if(list!=null&&list.length>0){
+			List<String> listname = new ArrayList<String>();
 			for (String str : list) {//循环子文件夹
 				String cbasePath = basePath+File.separator+str;
 				File file = new File(cbasePath);
 				if(file.isDirectory()){//判断是否文件夹
-					System.out.println(str);
+					listname.add(str);
 				}
+			}
+			//排序
+//			Collections.sort(listname);
+			for(String str : listname){
+				System.out.println(str);
 			}
 		}	
 	}
 	
 	/**
 	 * 复制双层文件夹文件并添加水印
-	 * @param basepath
+	 * @param
 	 */
 	public void copyAllFolderMark(String basePath){
 		//同路径复制主文件夹
@@ -249,7 +271,6 @@ public class PDF2Image {
 								        System.out.println("给图片添加水印文字结束...");
 									}
 								}
-
 							}catch(Exception ex){
 				            	continue;
 				            }	
@@ -262,14 +283,19 @@ public class PDF2Image {
 	
 
 	public static void main(String[] args) {
-//		new  PDF2Image().getAllImg("/Users/zyfine/Desktop/hm");
-		new  PDF2Image().copyAllFolderWebp("/Users/zyfine/Desktop/hm-test");
+//		new  PDF2Image().getAllImg("F:\\mh\\hm-new-pdf");
+//		new  PDF2Image().copyAllFolderWebp("/Users/zyfine/Desktop/hm-test");
+
+		new  PDF2Image().getAllFolder("F:\\hm2\\hm-final\\186-我的秘密女友");
+
+
+
 	}
 
-	
-	
-	
-	
+
+
+
+
 	
 	
 	

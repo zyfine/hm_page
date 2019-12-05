@@ -41,15 +41,19 @@ public class DeleteFileUtil {
         if (file.exists() && file.isFile()) {
             if (file.delete()) {
                 System.out.println("删除单个文件" + fileName + "成功！");
+                file = null;
                 return true;
             } else {
                 System.out.println("删除单个文件" + fileName + "失败！");
+                file = null;
                 return false;
             }
         } else {
             System.out.println("删除单个文件失败：" + fileName + "不存在！");
+            file = null;
             return false;
         }
+
     }
 
     /**

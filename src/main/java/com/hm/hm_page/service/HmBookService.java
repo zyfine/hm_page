@@ -1,12 +1,19 @@
 package com.hm.hm_page.service;
 
 import com.hm.hm_page.entity.*;
+import com.hm.hm_page.mapper.CommonMapper;
 import com.hm.hm_page.mapper.HmBookMapper;
 import com.hm.hm_page.mapper.HmChapterMapper;
 import com.hm.hm_page.mapper.HmPageMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.io.File;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 
@@ -20,7 +27,8 @@ public class HmBookService {
     HmChapterMapper hmChapterMapper;
     @Autowired
     HmPageMapper hmPageMapper;
-
+    @Autowired
+    CommonMapper commonMapper;
     
     /**
      * @param num 数量
@@ -51,7 +59,7 @@ public class HmBookService {
         return list;
     }
     /**
-     * @param null
+     * @param
      * @Description: 获得所有book
      * @return:
      * @Author: zyfine
@@ -129,6 +137,69 @@ public class HmBookService {
         e.setOrderByClause(" sorting ");
         return list;
     }
+
+    public  void insertHmBook(HmBook record){
+        hmBookMapper.insert(record);
+    }
+
+    public  void insertHmChapter(HmChapter record){
+        hmChapterMapper.insert(record);
+    }
+    /**
+     * @param basePath
+     * @Description: 通过主目录，导入book名称和章节名称
+     * @return:
+     * @Author: zyfine
+     * @Date: 2019/12/5 16:58
+     */
+    public  void insertHmByFolder(String basePath){
+        String[] list=new File(basePath).list();
+        System.out.println("book个数："+list.length);
+        List<String> booklist = new ArrayList<String>();
+        if(list!=null&&list.length>0){
+            for (String str : list) {//循环book名称
+                String bookPath = basePath+File.separator+str;
+                File file = new File(bookPath);
+                if(file.isDirectory()){//判断是否文件夹
+                    booklist.add(str);
+                    //循环book子文件夹
+                    String[] chapterlist=new File(bookPath).list();
+                    HmBook record0 = new HmBook();
+                    record0.setTitle(str);
+                    record0.setAuthor("zyfine");
+                    record0.getChapterLast();
+                    record0.getChapterLastId();
+                    record0.setComment(str);
+                    record0.setCreatePerson("admin");
+                    record0.setCreateTime(new Date());
+                    record0.setHot(new BigDecimal("10"));
+                    record0.setIsEnd("1");
+                    record0.setLabel("");
+                    record0.setLatestTime(new Date());
+                    record0.setTitlePic(str+".jpg");
+                    record0.setType("");
+
+                    if(chapterlist!=null&&chapterlist.length>0){
+                        for (int i=0;i<chapterlist.length; i++){
+
+                            HmChapter record1 = new HmChapter();
+
+                        }
+                    }
+
+
+                    new HmBookService().insertHmBook(record0);
+
+                }
+            }
+
+
+
+        }
+
+
+    }
+
 
 
 

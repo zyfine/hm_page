@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hm.hm_page.mapper.CommonMapper" >
+
+    <!-- 批量插入 BEFORE适合使用在设置UUID的情况，AFTER适合使用在返回自增id的情况-->
+    <insert id ="insertChapterBatch" parameterType="java.util.List" >
+        <selectKey resultType ="java.lang.Integer" keyProperty= "id"  order= "AFTER">
+            SELECT LAST_INSERT_ID() AS value
+        </selectKey >
+        insert into hm_chapter
+        (id, book_id, chapter_name, chapter_num,pagenum,is_end,create_time,create_person,comment)
+        values
+        <foreach collection ="list" item="hmchapter" index= "index" separator =",">
+            (
+            #{hmchapter.id},
+            #{hmchapter.book_id},
+            #{hmchapter.chapter_name},
+            #{hmchapter.chapter_num},
+            #{hmchapter.pagenum},
+            #{hmchapter.is_end},
+            #{hmchapter.create_time},
+            #{hmchapter.create_person},
+            #{hmchapter.comment}
+            )
+        </foreach >
+    </insert >
+    <!-- 批量删除 -->
+    <delete id="deleteChapterBatch">
+        <!-- delete from emp where empno in(7980,7981) -->
+        delete from user hm_chapter id in
+        <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+
+
+</mapper>

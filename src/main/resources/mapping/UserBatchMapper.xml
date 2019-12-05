@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.example.mapper.UserMapper" >
+<mapper namespace="com.hm.hm_page.mapper.UserMapper" >
 
   <!-- 批量插入 BEFORE适合使用在设置UUID的情况，AFTER适合使用在返回自增id的情况-->
   <insert id ="insertUserBatch" parameterType="java.util.List" >
