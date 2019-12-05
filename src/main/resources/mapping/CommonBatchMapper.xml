@@ -13,13 +13,13 @@
         <foreach collection ="list" item="hmchapter" index= "index" separator =",">
             (
             #{hmchapter.id},
-            #{hmchapter.book_id},
-            #{hmchapter.chapter_name},
-            #{hmchapter.chapter_num},
+            #{hmchapter.bookId},
+            #{hmchapter.chapterName},
+            #{hmchapter.chapterNum},
             #{hmchapter.pagenum},
-            #{hmchapter.is_end},
-            #{hmchapter.create_time},
-            #{hmchapter.create_person},
+            #{hmchapter.isEnd},
+            #{hmchapter.createTime},
+            #{hmchapter.createPerson},
             #{hmchapter.comment}
             )
         </foreach >

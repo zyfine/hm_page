@@ -141,10 +141,32 @@ public class HmBookService {
     public  void insertHmBook(HmBook record){
         hmBookMapper.insert(record);
     }
+    public HmBook getHmBookByName(String name){
+        HmBookExample e = new HmBookExample();
+        e.createCriteria().andTitleEqualTo(name);
+        return hmBookMapper.selectByExample(e).get(0);
+    }
 
-    public  void insertHmChapter(HmChapter record){
+    public void insertHmChapter(HmChapter record){
         hmChapterMapper.insert(record);
     }
+
+    public void insertChapterBatch(List<HmChapter> list){
+        commonMapper.insertChapterBatch(list);
+    }
+
+    public void updateHmBookById(int id,String chapterName,int chapterNum){
+        HmBookExample e = new HmBookExample();
+        e.createCriteria().andIdEqualTo(id);
+        HmBook record = new HmBook();
+        record.setChapterLast(chapterName);
+        record.setChapterLastId(chapterNum);
+        hmBookMapper.updateByExampleSelective(record,e);
+    }
+
+
+
+
     /**
      * @param basePath
      * @Description: 通过主目录，导入book名称和章节名称
@@ -152,7 +174,7 @@ public class HmBookService {
      * @Author: zyfine
      * @Date: 2019/12/5 16:58
      */
-    public  void insertHmByFolder(String basePath){
+    public void insertHmByFolder(String basePath){
         String[] list=new File(basePath).list();
         System.out.println("book个数："+list.length);
         List<String> booklist = new ArrayList<String>();
@@ -162,8 +184,6 @@ public class HmBookService {
                 File file = new File(bookPath);
                 if(file.isDirectory()){//判断是否文件夹
                     booklist.add(str);
-                    //循环book子文件夹
-                    String[] chapterlist=new File(bookPath).list();
                     HmBook record0 = new HmBook();
                     record0.setTitle(str);
                     record0.setAuthor("zyfine");
@@ -178,28 +198,34 @@ public class HmBookService {
                     record0.setLatestTime(new Date());
                     record0.setTitlePic(str+".jpg");
                     record0.setType("");
-
+                    new HmBookService().insertHmBook(record0);
+                    HmBook book = new HmBookService().getHmBookByName(str);
+                    //循环book子文件夹
+                    String[] chapterlist=new File(bookPath).list();
+                    List<HmChapter> chapters = new ArrayList<HmChapter>();
                     if(chapterlist!=null&&chapterlist.length>0){
                         for (int i=0;i<chapterlist.length; i++){
-
-                            HmChapter record1 = new HmChapter();
-
+                            if(file.isDirectory()){//判断是否文件夹
+                                HmChapter hmChapter = new HmChapter();
+                                hmChapter.setBookId(book.getId());
+                                hmChapter.setChapterName(chapterlist[i]);
+                                hmChapter.setCreatePerson("admin");
+                                hmChapter.setCreateTime(new Date());
+                                String flag = "0";
+                                if(i==(chapterlist.length-1)){
+                                    flag = "1";
+                                }
+                                hmChapter.setIsEnd(flag);
+                                hmChapter.setPagenum(chapterlist.length);
+                                chapters.add(hmChapter);
+                            }
                         }
+                        commonMapper.insertChapterBatch(chapters);
                     }
-
-
-                    new HmBookService().insertHmBook(record0);
-
                 }
             }
-
-
-
         }
-
-
     }
-
 
 
 
