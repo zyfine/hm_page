@@ -3,6 +3,7 @@ package com.hm.hm_page.mapper;
 import com.hm.hm_page.entity.HmBook;
 import com.hm.hm_page.entity.HmBookExample;
 import com.hm.hm_page.entity.HmChapter;
+import com.hm.hm_page.entity.HmPage;
 
 import java.util.HashMap;
 import java.util.List;
@@ -24,7 +25,7 @@ public interface CommonMapper {
 
     void insertChapterBatch(List<HmChapter> list);
 
-
+    void insertPageBatch(List<HmPage> list);
 
 
 

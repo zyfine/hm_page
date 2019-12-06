@@ -24,6 +24,28 @@
             )
         </foreach >
     </insert >
+    <insert id ="insertPageBatch" parameterType="java.util.List" >
+        <selectKey resultType ="java.lang.Integer" keyProperty= "id"  order= "AFTER">
+            SELECT LAST_INSERT_ID() AS value
+        </selectKey >
+        insert into hm_page
+        (id, book_id, chapter_id, url,sorting,is_end,create_time,create_person,comment)
+        values
+        <foreach collection ="list" item="hmpage" index= "index" separator =",">
+            (
+            #{hmpage.id},
+            #{hmpage.bookId},
+            #{hmpage.chapterId},
+            #{hmpage.url},
+            #{hmpage.sorting},
+            #{hmpage.isEnd},
+            #{hmpage.createTime},
+            #{hmpage.createPerson},
+            #{hmpage.comment}
+            )
+        </foreach >
+    </insert >
+
     <!-- 批量删除 -->
     <delete id="deleteChapterBatch">
         <!-- delete from emp where empno in(7980,7981) -->

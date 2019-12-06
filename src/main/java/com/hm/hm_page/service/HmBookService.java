@@ -155,6 +155,10 @@ public class HmBookService {
         commonMapper.insertChapterBatch(list);
     }
 
+    public void insertPageBatch(List<HmPage> list){
+        commonMapper.insertPageBatch(list);
+    }
+
     public void updateHmBookById(int id,String chapterName,int chapterNum){
         HmBookExample e = new HmBookExample();
         e.createCriteria().andIdEqualTo(id);

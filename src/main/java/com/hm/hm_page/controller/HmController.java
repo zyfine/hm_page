@@ -167,11 +167,18 @@ public class HmController {
         return mv;
     }
 
-
+    /**
+     * @param
+     * @Description: 插入book和章节信息
+     * @return:
+     * @Author: zyfine
+     * @Date: 2019/12/6 16:50
+     */
     @RequestMapping(value = "/ins", method = RequestMethod.GET)
     public String insertHmChapter()  {
         try{
-            String basePath = "/Users/zyfine/Desktop/mh/hm-new-img";
+//            String basePath = "/Users/zyfine/Desktop/mh/hm-new-img";
+            String basePath = "C:\\Users\\jslx\\Desktop\\hm-test";
             String[] list=new File(basePath).list();
             System.out.println("book个数："+list.length);
             List<String> booklist = new ArrayList<String>();
@@ -194,7 +201,7 @@ public class HmController {
                         record0.setLabel("");
                         record0.setLatestTime(new Date());
                         record0.setTitlePic(str+".jpg");
-                        record0.setType("");
+                        record0.setType("都市");
                         hmBookService.insertHmBook(record0);
                         HmBook book = hmBookService.getHmBookByName(str);
                         //循环book子文件夹
@@ -215,10 +222,11 @@ public class HmController {
                                     String flag = "0";
                                     if(i==(chapterlist.length-1)){
                                         flag = "1";
-                                        hmBookService.updateHmBookById(book.getId(),chapterlist[i],i);
+                                        hmBookService.updateHmBookById(book.getId(),chapterlist[i],(i+1));
                                     }
                                     hmChapter.setIsEnd(flag);
-                                    hmChapter.setPagenum(i);
+                                    hmChapter.setChapterNum(i+1);
+                                    hmChapter.setPagenum(chapterlist.length);
                                     chapters.add(hmChapter);
                                 }
                             }
@@ -232,6 +240,59 @@ public class HmController {
         }
         return "ok";
     }
+
+    /**
+     * @param
+     * @Description: 获取章节page插入
+     * @return:
+     * @Author: zyfine
+     * @Date: 2019/12/6 17:08
+     */
+    @RequestMapping(value = "/inspage", method = RequestMethod.GET)
+    public String insertHmChapterPage()  {
+        try{
+            String path = "C:\\Users\\jslx\\Desktop\\hm-test";
+            String sql = "SELECT c.title,d.* FROM `hm_book` c,hm_chapter d where c.id=d.book_id;";
+            List<HashMap> chapterlist = commonService.selectDataBySql(sql);
+            if (chapterlist!=null&&chapterlist.size()>0){
+                for (int i=0;i<chapterlist.size(); i++){
+                    String bookname = chapterlist.get(i).get("TITLE")+"";
+                    String chaptername = chapterlist.get(i).get("TITLE")+"";
+                    String pagepath = path + File.separator + bookname+ File.separator + chaptername;
+                    String[] pagelist=new File(pagepath).list();
+                    List<HmPage> pages = new ArrayList<HmPage>();
+                    //排序
+                    Arrays.sort(pagelist);
+
+
+
+
+
+                }
+            }
+
+
+
+
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "ok";
+    }
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
