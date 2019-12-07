@@ -8,7 +8,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class HmPageApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(HmPageApplication.class, args);
+        try{
+            SpringApplication.run(HmPageApplication.class, args);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
     }
 
 }

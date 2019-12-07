@@ -38,9 +38,9 @@
 <!--               enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true"></table>-->
 <!--        <table tableName="hm_chapter" domainObjectName="HmChapter" enableCountByExample="true" enableUpdateByExample="true"-->
 <!--               enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true"></table>-->
-<!--        <table tableName="hm_page" domainObjectName="HmPage" enableCountByExample="true" enableUpdateByExample="true"-->
-<!--               enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true"></table>-->
-        <table tableName="user" domainObjectName="User" enableCountByExample="true" enableUpdateByExample="true"
+        <table tableName="hm_page" domainObjectName="HmPage" enableCountByExample="true" enableUpdateByExample="true"
                enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true"></table>
+<!--        <table tableName="user" domainObjectName="User" enableCountByExample="true" enableUpdateByExample="true"-->
+<!--               enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true"></table>-->
     </context>
 </generatorConfiguration>

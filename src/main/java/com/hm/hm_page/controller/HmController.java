@@ -1,6 +1,5 @@
 package com.hm.hm_page.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.hm.hm_page.common.CommonService;
@@ -9,7 +8,6 @@ import com.hm.hm_page.entity.HmChapter;
 import com.hm.hm_page.entity.HmPage;
 import com.hm.hm_page.entity.User;
 import com.hm.hm_page.service.HmBookService;
-import com.hm.hm_page.util.JsonUtil;
 import com.hm.hm_page.util.StrUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
