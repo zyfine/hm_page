@@ -62,8 +62,7 @@ public class PDF2Image {
 			            try{
 				            System.out.println("保存图片地址："+targetFolder + name);
 							image.write2file(targetFolder + name);		// 保存图片
-							File file0 = null;
-							file0 = new File(targetFolder + name+".png");
+							File file0 = new File(targetFolder + name+".png");
 							if(file0.length()<18583 ){//小于18583字节的就删除
 								DeleteFileUtil.deleteFile(targetFolder + name+".png");
 							}

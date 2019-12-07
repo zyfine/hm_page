@@ -29,13 +29,15 @@
             SELECT LAST_INSERT_ID() AS value
         </selectKey >
         insert into hm_page
-        (id, book_id, chapter_id, url,sorting,is_end,create_time,create_person,comment)
+        (id, book_id,book_name, chapter_id,chapter_name, url,sorting,is_end,create_time,create_person,comment)
         values
         <foreach collection ="list" item="hmpage" index= "index" separator =",">
             (
             #{hmpage.id},
             #{hmpage.bookId},
+            #{hmpage.bookName},
             #{hmpage.chapterId},
+            #{hmpage.chapterName},
             #{hmpage.url},
             #{hmpage.sorting},
             #{hmpage.isEnd},

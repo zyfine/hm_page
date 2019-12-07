@@ -7,7 +7,11 @@ public class HmPage {
 
     private Integer bookId;
 
+    private String bookName;
+
     private Integer chapterId;
+
+    private String chapterName;
 
     private String url;
 
@@ -37,12 +41,28 @@ public class HmPage {
         this.bookId = bookId;
     }
 
+    public String getBookName() {
+        return bookName;
+    }
+
+    public void setBookName(String bookName) {
+        this.bookName = bookName == null ? null : bookName.trim();
+    }
+
     public Integer getChapterId() {
         return chapterId;
     }
 
     public void setChapterId(Integer chapterId) {
         this.chapterId = chapterId;
+    }
+
+    public String getChapterName() {
+        return chapterName;
+    }
+
+    public void setChapterName(String chapterName) {
+        this.chapterName = chapterName == null ? null : chapterName.trim();
     }
 
     public String getUrl() {

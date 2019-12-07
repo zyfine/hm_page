@@ -225,6 +225,76 @@ public class HmPageExample {
             return (Criteria) this;
         }
 
+        public Criteria andBookNameIsNull() {
+            addCriterion("book_name is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBookNameIsNotNull() {
+            addCriterion("book_name is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBookNameEqualTo(String value) {
+            addCriterion("book_name =", value, "bookName");
+            return (Criteria) this;
+        }
+
+        public Criteria andBookNameNotEqualTo(String value) {
+            addCriterion("book_name <>", value, "bookName");
+            return (Criteria) this;
+        }
+
+        public Criteria andBookNameGreaterThan(String value) {
+            addCriterion("book_name >", value, "bookName");
+            return (Criteria) this;
+        }
+
+        public Criteria andBookNameGreaterThanOrEqualTo(String value) {
+            addCriterion("book_name >=", value, "bookName");
+            return (Criteria) this;
+        }
+
+        public Criteria andBookNameLessThan(String value) {
+            addCriterion("book_name <", value, "bookName");
+            return (Criteria) this;
+        }
+
+        public Criteria andBookNameLessThanOrEqualTo(String value) {
+            addCriterion("book_name <=", value, "bookName");
+            return (Criteria) this;
+        }
+
+        public Criteria andBookNameLike(String value) {
+            addCriterion("book_name like", value, "bookName");
+            return (Criteria) this;
+        }
+
+        public Criteria andBookNameNotLike(String value) {
+            addCriterion("book_name not like", value, "bookName");
+            return (Criteria) this;
+        }
+
+        public Criteria andBookNameIn(List<String> values) {
+            addCriterion("book_name in", values, "bookName");
+            return (Criteria) this;
+        }
+
+        public Criteria andBookNameNotIn(List<String> values) {
+            addCriterion("book_name not in", values, "bookName");
+            return (Criteria) this;
+        }
+
+        public Criteria andBookNameBetween(String value1, String value2) {
+            addCriterion("book_name between", value1, value2, "bookName");
+            return (Criteria) this;
+        }
+
+        public Criteria andBookNameNotBetween(String value1, String value2) {
+            addCriterion("book_name not between", value1, value2, "bookName");
+            return (Criteria) this;
+        }
+
         public Criteria andChapterIdIsNull() {
             addCriterion("chapter_id is null");
             return (Criteria) this;
@@ -282,6 +352,76 @@ public class HmPageExample {
 
         public Criteria andChapterIdNotBetween(Integer value1, Integer value2) {
             addCriterion("chapter_id not between", value1, value2, "chapterId");
+            return (Criteria) this;
+        }
+
+        public Criteria andChapterNameIsNull() {
+            addCriterion("chapter_name is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andChapterNameIsNotNull() {
+            addCriterion("chapter_name is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andChapterNameEqualTo(String value) {
+            addCriterion("chapter_name =", value, "chapterName");
+            return (Criteria) this;
+        }
+
+        public Criteria andChapterNameNotEqualTo(String value) {
+            addCriterion("chapter_name <>", value, "chapterName");
+            return (Criteria) this;
+        }
+
+        public Criteria andChapterNameGreaterThan(String value) {
+            addCriterion("chapter_name >", value, "chapterName");
+            return (Criteria) this;
+        }
+
+        public Criteria andChapterNameGreaterThanOrEqualTo(String value) {
+            addCriterion("chapter_name >=", value, "chapterName");
+            return (Criteria) this;
+        }
+
+        public Criteria andChapterNameLessThan(String value) {
+            addCriterion("chapter_name <", value, "chapterName");
+            return (Criteria) this;
+        }
+
+        public Criteria andChapterNameLessThanOrEqualTo(String value) {
+            addCriterion("chapter_name <=", value, "chapterName");
+            return (Criteria) this;
+        }
+
+        public Criteria andChapterNameLike(String value) {
+            addCriterion("chapter_name like", value, "chapterName");
+            return (Criteria) this;
+        }
+
+        public Criteria andChapterNameNotLike(String value) {
+            addCriterion("chapter_name not like", value, "chapterName");
+            return (Criteria) this;
+        }
+
+        public Criteria andChapterNameIn(List<String> values) {
+            addCriterion("chapter_name in", values, "chapterName");
+            return (Criteria) this;
+        }
+
+        public Criteria andChapterNameNotIn(List<String> values) {
+            addCriterion("chapter_name not in", values, "chapterName");
+            return (Criteria) this;
+        }
+
+        public Criteria andChapterNameBetween(String value1, String value2) {
+            addCriterion("chapter_name between", value1, value2, "chapterName");
+            return (Criteria) this;
+        }
+
+        public Criteria andChapterNameNotBetween(String value1, String value2) {
+            addCriterion("chapter_name not between", value1, value2, "chapterName");
             return (Criteria) this;
         }
 

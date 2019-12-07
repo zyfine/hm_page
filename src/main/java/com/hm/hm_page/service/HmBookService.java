@@ -171,67 +171,6 @@ public class HmBookService {
 
 
 
-    /**
-     * @param basePath
-     * @Description: 通过主目录，导入book名称和章节名称
-     * @return:
-     * @Author: zyfine
-     * @Date: 2019/12/5 16:58
-     */
-    public void insertHmByFolder(String basePath){
-        String[] list=new File(basePath).list();
-        System.out.println("book个数："+list.length);
-        List<String> booklist = new ArrayList<String>();
-        if(list!=null&&list.length>0){
-            for (String str : list) {//循环book名称
-                String bookPath = basePath+File.separator+str;
-                File file = new File(bookPath);
-                if(file.isDirectory()){//判断是否文件夹
-                    booklist.add(str);
-                    HmBook record0 = new HmBook();
-                    record0.setTitle(str);
-                    record0.setAuthor("zyfine");
-                    record0.getChapterLast();
-                    record0.getChapterLastId();
-                    record0.setComment(str);
-                    record0.setCreatePerson("admin");
-                    record0.setCreateTime(new Date());
-                    record0.setHot(new BigDecimal("10"));
-                    record0.setIsEnd("1");
-                    record0.setLabel("");
-                    record0.setLatestTime(new Date());
-                    record0.setTitlePic(str+".jpg");
-                    record0.setType("");
-                    new HmBookService().insertHmBook(record0);
-                    HmBook book = new HmBookService().getHmBookByName(str);
-                    //循环book子文件夹
-                    String[] chapterlist=new File(bookPath).list();
-                    List<HmChapter> chapters = new ArrayList<HmChapter>();
-                    if(chapterlist!=null&&chapterlist.length>0){
-                        for (int i=0;i<chapterlist.length; i++){
-                            if(file.isDirectory()){//判断是否文件夹
-                                HmChapter hmChapter = new HmChapter();
-                                hmChapter.setBookId(book.getId());
-                                hmChapter.setChapterName(chapterlist[i]);
-                                hmChapter.setCreatePerson("admin");
-                                hmChapter.setCreateTime(new Date());
-                                String flag = "0";
-                                if(i==(chapterlist.length-1)){
-                                    flag = "1";
-                                }
-                                hmChapter.setIsEnd(flag);
-                                hmChapter.setPagenum(chapterlist.length);
-                                chapters.add(hmChapter);
-                            }
-                        }
-                        commonMapper.insertChapterBatch(chapters);
-                    }
-                }
-            }
-        }
-    }
-
-
 
 
 

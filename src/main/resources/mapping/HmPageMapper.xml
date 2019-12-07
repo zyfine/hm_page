@@ -1,36 +1,38 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.hm.hm_page.mapper.HmPageMapper" >
-  <resultMap id="BaseResultMap" type="com.hm.hm_page.entity.HmPage" >
-    <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="book_id" property="bookId" jdbcType="INTEGER" />
-    <result column="chapter_id" property="chapterId" jdbcType="INTEGER" />
-    <result column="url" property="url" jdbcType="VARCHAR" />
-    <result column="sorting" property="sorting" jdbcType="INTEGER" />
-    <result column="is_end" property="isEnd" jdbcType="CHAR" />
-    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
-    <result column="create_person" property="createPerson" jdbcType="VARCHAR" />
-    <result column="comment" property="comment" jdbcType="VARCHAR" />
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hm.hm_page.mapper.HmPageMapper">
+  <resultMap id="BaseResultMap" type="com.hm.hm_page.entity.HmPage">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="book_id" jdbcType="INTEGER" property="bookId" />
+    <result column="book_name" jdbcType="VARCHAR" property="bookName" />
+    <result column="chapter_id" jdbcType="INTEGER" property="chapterId" />
+    <result column="chapter_name" jdbcType="VARCHAR" property="chapterName" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
+    <result column="sorting" jdbcType="INTEGER" property="sorting" />
+    <result column="is_end" jdbcType="CHAR" property="isEnd" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="create_person" jdbcType="VARCHAR" property="createPerson" />
+    <result column="comment" jdbcType="VARCHAR" property="comment" />
   </resultMap>
-  <sql id="Example_Where_Clause" >
-    <where >
-      <foreach collection="oredCriteria" item="criteria" separator="or" >
-        <if test="criteria.valid" >
-          <trim prefix="(" suffix=")" prefixOverrides="and" >
-            <foreach collection="criteria.criteria" item="criterion" >
-              <choose >
-                <when test="criterion.noValue" >
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
                   and ${criterion.condition}
                 </when>
-                <when test="criterion.singleValue" >
+                <when test="criterion.singleValue">
                   and ${criterion.condition} #{criterion.value}
                 </when>
-                <when test="criterion.betweenValue" >
+                <when test="criterion.betweenValue">
                   and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
                 </when>
-                <when test="criterion.listValue" >
+                <when test="criterion.listValue">
                   and ${criterion.condition}
-                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
                     #{listItem}
                   </foreach>
                 </when>
@@ -41,25 +43,25 @@
       </foreach>
     </where>
   </sql>
-  <sql id="Update_By_Example_Where_Clause" >
-    <where >
-      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
-        <if test="criteria.valid" >
-          <trim prefix="(" suffix=")" prefixOverrides="and" >
-            <foreach collection="criteria.criteria" item="criterion" >
-              <choose >
-                <when test="criterion.noValue" >
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
                   and ${criterion.condition}
                 </when>
-                <when test="criterion.singleValue" >
+                <when test="criterion.singleValue">
                   and ${criterion.condition} #{criterion.value}
                 </when>
-                <when test="criterion.betweenValue" >
+                <when test="criterion.betweenValue">
                   and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
                 </when>
-                <when test="criterion.listValue" >
+                <when test="criterion.listValue">
                   and ${criterion.condition}
-                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
                     #{listItem}
                   </foreach>
                 </when>
@@ -70,41 +72,342 @@
       </foreach>
     </where>
   </sql>
-  <sql id="Base_Column_List" >
-    id, book_id, chapter_id, url, sorting, is_end, create_time, create_person, comment
+  <sql id="Base_Column_List">
+    id, book_id, book_name, chapter_id, chapter_name, url, sorting, is_end, create_time, 
+    create_person, comment
   </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.hm.hm_page.entity.HmPageExample" >
+  <select id="selectByExample" parameterType="com.hm.hm_page.entity.HmPageExample" resultMap="BaseResultMap">
     select
-    <if test="distinct" >
+    <if test="distinct">
       distinct
     </if>
     'true' as QUERYID,
     <include refid="Base_Column_List" />
     from hm_page
-    <if test="_parameter != null" >
+    <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
-    <if test="orderByClause != null" >
+    <if test="orderByClause != null">
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from hm_page
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from hm_page
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.hm.hm_page.entity.HmPageExample" >
+  <delete id="deleteByExample" parameterType="com.hm.hm_page.entity.HmPageExample">
     delete from hm_page
-    <if test="_parameter != null" >
+    <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.hm.hm_page.entity.HmPage" >
+  <insert id="insert" parameterType="com.hm.hm_page.entity.HmPage">
+    insert into hm_page (id, book_id, book_name, 
+      chapter_id, chapter_name, url, 
+      sorting, is_end, create_time, 
+      create_person, comment)
+    values (#{id,jdbcType=INTEGER}, #{bookId,jdbcType=INTEGER}, #{bookName,jdbcType=VARCHAR}, 
+      #{chapterId,jdbcType=INTEGER}, #{chapterName,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, 
+      #{sorting,jdbcType=INTEGER}, #{isEnd,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{createPerson,jdbcType=VARCHAR}, #{comment,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hm.hm_page.entity.HmPage">
+    insert into hm_page
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="bookId != null">
+        book_id,
+      </if>
+      <if test="bookName != null">
+        book_name,
+      </if>
+      <if test="chapterId != null">
+        chapter_id,
+      </if>
+      <if test="chapterName != null">
+        chapter_name,
+      </if>
+      <if test="url != null">
+        url,
+      </if>
+      <if test="sorting != null">
+        sorting,
+      </if>
+      <if test="isEnd != null">
+        is_end,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="createPerson != null">
+        create_person,
+      </if>
+      <if test="comment != null">
+        comment,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="bookId != null">
+        #{bookId,jdbcType=INTEGER},
+      </if>
+      <if test="bookName != null">
+        #{bookName,jdbcType=VARCHAR},
+      </if>
+      <if test="chapterId != null">
+        #{chapterId,jdbcType=INTEGER},
+      </if>
+      <if test="chapterName != null">
+        #{chapterName,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null">
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="sorting != null">
+        #{sorting,jdbcType=INTEGER},
+      </if>
+      <if test="isEnd != null">
+        #{isEnd,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createPerson != null">
+        #{createPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="comment != null">
+        #{comment,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.hm.hm_page.entity.HmPageExample" resultType="java.lang.Integer">
+    select count(*) from hm_page
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update hm_page
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.bookId != null">
+        book_id = #{record.bookId,jdbcType=INTEGER},
+      </if>
+      <if test="record.bookName != null">
+        book_name = #{record.bookName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.chapterId != null">
+        chapter_id = #{record.chapterId,jdbcType=INTEGER},
+      </if>
+      <if test="record.chapterName != null">
+        chapter_name = #{record.chapterName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.url != null">
+        url = #{record.url,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sorting != null">
+        sorting = #{record.sorting,jdbcType=INTEGER},
+      </if>
+      <if test="record.isEnd != null">
+        is_end = #{record.isEnd,jdbcType=CHAR},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createPerson != null">
+        create_person = #{record.createPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="record.comment != null">
+        comment = #{record.comment,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update hm_page
+    set id = #{record.id,jdbcType=INTEGER},
+      book_id = #{record.bookId,jdbcType=INTEGER},
+      book_name = #{record.bookName,jdbcType=VARCHAR},
+      chapter_id = #{record.chapterId,jdbcType=INTEGER},
+      chapter_name = #{record.chapterName,jdbcType=VARCHAR},
+      url = #{record.url,jdbcType=VARCHAR},
+      sorting = #{record.sorting,jdbcType=INTEGER},
+      is_end = #{record.isEnd,jdbcType=CHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      create_person = #{record.createPerson,jdbcType=VARCHAR},
+      comment = #{record.comment,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hm.hm_page.entity.HmPage">
+    update hm_page
+    <set>
+      <if test="bookId != null">
+        book_id = #{bookId,jdbcType=INTEGER},
+      </if>
+      <if test="bookName != null">
+        book_name = #{bookName,jdbcType=VARCHAR},
+      </if>
+      <if test="chapterId != null">
+        chapter_id = #{chapterId,jdbcType=INTEGER},
+      </if>
+      <if test="chapterName != null">
+        chapter_name = #{chapterName,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null">
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="sorting != null">
+        sorting = #{sorting,jdbcType=INTEGER},
+      </if>
+      <if test="isEnd != null">
+        is_end = #{isEnd,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createPerson != null">
+        create_person = #{createPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="comment != null">
+        comment = #{comment,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hm.hm_page.entity.HmPage">
+    update hm_page
+    set book_id = #{bookId,jdbcType=INTEGER},
+      book_name = #{bookName,jdbcType=VARCHAR},
+      chapter_id = #{chapterId,jdbcType=INTEGER},
+      chapter_name = #{chapterName,jdbcType=VARCHAR},
+      url = #{url,jdbcType=VARCHAR},
+      sorting = #{sorting,jdbcType=INTEGER},
+      is_end = #{isEnd,jdbcType=CHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_person = #{createPerson,jdbcType=VARCHAR},
+      comment = #{comment,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <resultMap id="BaseResultMap" type="com.hm.hm_page.entity.HmPage">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="book_id" jdbcType="INTEGER" property="bookId" />
+    <result column="chapter_id" jdbcType="INTEGER" property="chapterId" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
+    <result column="sorting" jdbcType="INTEGER" property="sorting" />
+    <result column="is_end" jdbcType="CHAR" property="isEnd" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="create_person" jdbcType="VARCHAR" property="createPerson" />
+    <result column="comment" jdbcType="VARCHAR" property="comment" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, book_id, chapter_id, url, sorting, is_end, create_time, create_person, comment
+  </sql>
+  <select id="selectByExample" parameterType="com.hm.hm_page.entity.HmPageExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from hm_page
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from hm_page
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from hm_page
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.hm.hm_page.entity.HmPageExample">
+    delete from hm_page
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.hm.hm_page.entity.HmPage">
     insert into hm_page (id, book_id, chapter_id, 
       url, sorting, is_end, create_time, 
       create_person, comment)
@@ -112,109 +415,109 @@
       #{url,jdbcType=VARCHAR}, #{sorting,jdbcType=INTEGER}, #{isEnd,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP}, 
       #{createPerson,jdbcType=VARCHAR}, #{comment,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.hm.hm_page.entity.HmPage" >
+  <insert id="insertSelective" parameterType="com.hm.hm_page.entity.HmPage">
     insert into hm_page
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
         id,
       </if>
-      <if test="bookId != null" >
+      <if test="bookId != null">
         book_id,
       </if>
-      <if test="chapterId != null" >
+      <if test="chapterId != null">
         chapter_id,
       </if>
-      <if test="url != null" >
+      <if test="url != null">
         url,
       </if>
-      <if test="sorting != null" >
+      <if test="sorting != null">
         sorting,
       </if>
-      <if test="isEnd != null" >
+      <if test="isEnd != null">
         is_end,
       </if>
-      <if test="createTime != null" >
+      <if test="createTime != null">
         create_time,
       </if>
-      <if test="createPerson != null" >
+      <if test="createPerson != null">
         create_person,
       </if>
-      <if test="comment != null" >
+      <if test="comment != null">
         comment,
       </if>
     </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="bookId != null" >
+      <if test="bookId != null">
         #{bookId,jdbcType=INTEGER},
       </if>
-      <if test="chapterId != null" >
+      <if test="chapterId != null">
         #{chapterId,jdbcType=INTEGER},
       </if>
-      <if test="url != null" >
+      <if test="url != null">
         #{url,jdbcType=VARCHAR},
       </if>
-      <if test="sorting != null" >
+      <if test="sorting != null">
         #{sorting,jdbcType=INTEGER},
       </if>
-      <if test="isEnd != null" >
+      <if test="isEnd != null">
         #{isEnd,jdbcType=CHAR},
       </if>
-      <if test="createTime != null" >
+      <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="createPerson != null" >
+      <if test="createPerson != null">
         #{createPerson,jdbcType=VARCHAR},
       </if>
-      <if test="comment != null" >
+      <if test="comment != null">
         #{comment,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.hm.hm_page.entity.HmPageExample" resultType="java.lang.Integer" >
+  <select id="countByExample" parameterType="com.hm.hm_page.entity.HmPageExample" resultType="java.lang.Integer">
     select count(*) from hm_page
-    <if test="_parameter != null" >
+    <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
-  <update id="updateByExampleSelective" parameterType="map" >
+  <update id="updateByExampleSelective" parameterType="map">
     update hm_page
-    <set >
-      <if test="record.id != null" >
+    <set>
+      <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
       </if>
-      <if test="record.bookId != null" >
+      <if test="record.bookId != null">
         book_id = #{record.bookId,jdbcType=INTEGER},
       </if>
-      <if test="record.chapterId != null" >
+      <if test="record.chapterId != null">
         chapter_id = #{record.chapterId,jdbcType=INTEGER},
       </if>
-      <if test="record.url != null" >
+      <if test="record.url != null">
         url = #{record.url,jdbcType=VARCHAR},
       </if>
-      <if test="record.sorting != null" >
+      <if test="record.sorting != null">
         sorting = #{record.sorting,jdbcType=INTEGER},
       </if>
-      <if test="record.isEnd != null" >
+      <if test="record.isEnd != null">
         is_end = #{record.isEnd,jdbcType=CHAR},
       </if>
-      <if test="record.createTime != null" >
+      <if test="record.createTime != null">
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="record.createPerson != null" >
+      <if test="record.createPerson != null">
         create_person = #{record.createPerson,jdbcType=VARCHAR},
       </if>
-      <if test="record.comment != null" >
+      <if test="record.comment != null">
         comment = #{record.comment,jdbcType=VARCHAR},
       </if>
     </set>
-    <if test="_parameter != null" >
+    <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByExample" parameterType="map" >
+  <update id="updateByExample" parameterType="map">
     update hm_page
     set id = #{record.id,jdbcType=INTEGER},
       book_id = #{record.bookId,jdbcType=INTEGER},
@@ -225,41 +528,41 @@
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       create_person = #{record.createPerson,jdbcType=VARCHAR},
       comment = #{record.comment,jdbcType=VARCHAR}
-    <if test="_parameter != null" >
+    <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.hm.hm_page.entity.HmPage" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.hm.hm_page.entity.HmPage">
     update hm_page
-    <set >
-      <if test="bookId != null" >
+    <set>
+      <if test="bookId != null">
         book_id = #{bookId,jdbcType=INTEGER},
       </if>
-      <if test="chapterId != null" >
+      <if test="chapterId != null">
         chapter_id = #{chapterId,jdbcType=INTEGER},
       </if>
-      <if test="url != null" >
+      <if test="url != null">
         url = #{url,jdbcType=VARCHAR},
       </if>
-      <if test="sorting != null" >
+      <if test="sorting != null">
         sorting = #{sorting,jdbcType=INTEGER},
       </if>
-      <if test="isEnd != null" >
+      <if test="isEnd != null">
         is_end = #{isEnd,jdbcType=CHAR},
       </if>
-      <if test="createTime != null" >
+      <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="createPerson != null" >
+      <if test="createPerson != null">
         create_person = #{createPerson,jdbcType=VARCHAR},
       </if>
-      <if test="comment != null" >
+      <if test="comment != null">
         comment = #{comment,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.hm.hm_page.entity.HmPage" >
+  <update id="updateByPrimaryKey" parameterType="com.hm.hm_page.entity.HmPage">
     update hm_page
     set book_id = #{bookId,jdbcType=INTEGER},
       chapter_id = #{chapterId,jdbcType=INTEGER},

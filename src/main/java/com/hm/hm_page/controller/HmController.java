@@ -10,6 +10,7 @@ import com.hm.hm_page.entity.HmPage;
 import com.hm.hm_page.entity.User;
 import com.hm.hm_page.service.HmBookService;
 import com.hm.hm_page.util.JsonUtil;
+import com.hm.hm_page.util.StrUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -243,7 +244,7 @@ public class HmController {
 
     /**
      * @param
-     * @Description: 获取章节page插入
+     * @Description: 获取所有章节page插入
      * @return:
      * @Author: zyfine
      * @Date: 2019/12/6 17:08
@@ -252,49 +253,50 @@ public class HmController {
     public String insertHmChapterPage()  {
         try{
             String path = "C:\\Users\\jslx\\Desktop\\hm-test";
-            String sql = "SELECT c.title,d.* FROM `hm_book` c,hm_chapter d where c.id=d.book_id;";
+            String sql = "SELECT c.title,d.* FROM `hm_book` c,hm_chapter d where c.id=d.book_id";
             List<HashMap> chapterlist = commonService.selectDataBySql(sql);
             if (chapterlist!=null&&chapterlist.size()>0){
+                List<HmPage> pages = new ArrayList<HmPage>();
                 for (int i=0;i<chapterlist.size(); i++){
-                    String bookname = chapterlist.get(i).get("TITLE")+"";
-                    String chaptername = chapterlist.get(i).get("TITLE")+"";
+                    String bookname = StrUtil.getNotNullStrValue(chapterlist.get(i).get("title"));
+                    String chaptername = StrUtil.getNotNullStrValue(chapterlist.get(i).get("chapter_name"));
+                    int bookid = StrUtil.getNotNullIntValue(chapterlist.get(i).get("book_id")+"");
+                    int chapterid = StrUtil.getNotNullIntValue(chapterlist.get(i).get("id")+"");
+
                     String pagepath = path + File.separator + bookname+ File.separator + chaptername;
+
                     String[] pagelist=new File(pagepath).list();
-                    List<HmPage> pages = new ArrayList<HmPage>();
+
                     //排序
-                    Arrays.sort(pagelist);
-
-
-
-
-
+                    pagelist = StrUtil.ArraySortStr(pagelist);
+                    if(pagelist!=null&&pagelist.length>0){
+                        for (int j=0;j<pagelist.length; j++){
+                            String pageName = StrUtil.getNotNullStrValue(pagelist[j]);
+                            HmPage record = new HmPage();
+                            record.setBookId(bookid);
+                            record.setBookName(bookname);
+                            record.setChapterId(chapterid);
+                            record.setChapterName(chaptername);
+                            record.setCreatePerson("admin");
+                            record.setCreateTime(new Date());
+                            String flag = "0";
+                            if(i==(pagelist.length-1)){
+                                flag = "1";
+                            }
+                            record.setIsEnd(flag);
+                            record.setSorting(j+1);
+                            record.setUrl(pageName);
+                            pages.add(record);
+                        }
+                    }
                 }
+                hmBookService.insertPageBatch(pages);
             }
-
-
-
-
-
 
         } catch (Exception e) {
             e.printStackTrace();
         }
         return "ok";
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 }

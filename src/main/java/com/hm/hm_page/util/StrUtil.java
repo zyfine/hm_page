@@ -7,13 +7,7 @@ import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.StringTokenizer;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -50,6 +44,37 @@ public class StrUtil {
 		return result;
 	}
 
+	/**
+	 * @param args 传入数组按数字名称排序，不按字符串排序
+	 *                例如  （1.jpg,11.jpg,2.jpg,22.jpg）
+	 *                转换后（1.jpg,2.jpg,11.jpg,22.jpg）
+	 * @Description: 将字符串数组按照 数字名称排序
+	 * @return:
+	 * @Author: zyfine
+	 * @Date: 2019/12/7 14:31
+	 */
+	public static String[] ArraySortStr(String[] args){
+		String[] str = new String[args.length];
+		Map<Integer,String> map = new TreeMap<Integer,String>();
+		if(args!=null&&args.length>0){
+			for (int j=0;j<args.length; j++){
+				String[] oldname = args[j].split("\\.");
+				String name = oldname[0];
+				String backname = oldname[1];
+				int key = StrUtil.getNotNullIntValue(name);
+				String value = StrUtil.getNotNullStrValue(backname);
+				map.put(key,value);
+			}
+		}
+		int i = 0;
+		for (HashMap.Entry<Integer, String> entry  : map.entrySet()) {
+			Integer key = entry .getKey();
+			String val = entry .getValue();
+			str[i] = key+"."+val;
+			++i;
+		}
+		return str;
+	}
 	/**
 	 * 
 	 * Description: 定量划分字符串
