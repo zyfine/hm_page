@@ -8,6 +8,7 @@ import com.hm.hm_page.entity.HmChapter;
 import com.hm.hm_page.entity.HmPage;
 import com.hm.hm_page.entity.User;
 import com.hm.hm_page.service.HmBookService;
+import com.hm.hm_page.util.SqlInjectionTool;
 import com.hm.hm_page.util.StrUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -52,7 +53,6 @@ public class HmController {
         }
         return mv;
     }
-
     /**
      * @param name 名称
      * @Description: 通过名称查询图书
@@ -61,37 +61,48 @@ public class HmController {
      * @Date: 2019/11/20 17:08
      */
     @RequestMapping(value = "/search/{name}", method = RequestMethod.GET)
-    public ModelAndView getMainTitle(@PathVariable String name)  {
+    public ModelAndView getMainTitle(@RequestParam(value = "pageNum",defaultValue="1") int pageNum,@PathVariable String name)  {
         ModelAndView mv = new ModelAndView("/hm/search");
+        int pageSize = 10;
+        name = SqlInjectionTool.filter(name);
         try{
-            List<HmBook> booklist = hmBookService.getMainTitleByName(name);
+            String sql = " (select * from hm_book where tilte like '%"+name+"%') as a  ";
+            List<HashMap> booklist = commonService.selectDataBySql(sql,pageNum,pageSize);
+            int sqlnum = commonService.pageDataNum(sql);
             mv.addObject("booklist", booklist);
+            mv.addObject("sqlnum", sqlnum);
+            mv.addObject("currpage", pageNum);
+            int totalPage = (sqlnum/pageSize);
+            if(sqlnum%pageSize!=0){
+                totalPage = (sqlnum/pageSize)+1;
+            }
+            mv.addObject("totalNum", totalPage);
         } catch (Exception e) {
             e.printStackTrace();
         }
         return mv;
     }
 
-    /**
-     * @param
-     * @Description: pagehelper分页列表显示全部book
-     * @return:
-     * @Author: zyfine
-     * @Date: 2019/11/21 10:32
-     */
-    @RequestMapping(value = "/all", method = RequestMethod.GET)
-    public ModelAndView getAllTitle(@RequestParam(value = "pageNum",defaultValue="1") int pageNum )  {
-        ModelAndView mv = new ModelAndView("/hm/search");
-        try{
-            PageHelper.startPage(pageNum,10);
-            List<HmBook> booklist = hmBookService.getAllTitle();
-            PageInfo<User> pageInfo=new PageInfo(booklist,10);
-            mv.addObject("booklist", booklist);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return mv;
-    }
+//    /**
+//     * @param
+//     * @Description: pagehelper分页列表显示全部book
+//     * @return:
+//     * @Author: zyfine
+//     * @Date: 2019/11/21 10:32
+//     */
+//    @RequestMapping(value = "/all", method = RequestMethod.GET)
+//    public ModelAndView getAllTitle(@RequestParam(value = "pageNum",defaultValue="1") int pageNum )  {
+//        ModelAndView mv = new ModelAndView("/hm/search");
+//        try{
+//            PageHelper.startPage(pageNum,10);
+//            List<HmBook> booklist = hmBookService.getAllTitle();
+//            PageInfo<User> pageInfo=new PageInfo(booklist,10);
+//            mv.addObject("booklist", booklist);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return mv;
+//    }
 
     /**
      * @param
@@ -103,7 +114,7 @@ public class HmController {
     @RequestMapping(value = "/allpage", method = RequestMethod.GET)
     public ModelAndView getAllTitleByPage(@RequestParam(value = "pageNum",defaultValue="1") int pageNum )  {
         ModelAndView mv = new ModelAndView("/hm/search");
-        int pageSize = 2;
+        int pageSize = 10;
         try{
             String sql = " (select * from hm_book ) as a  ";
             List<HashMap> booklist = commonService.selectDataBySql(sql,pageNum,pageSize);
