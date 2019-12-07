@@ -278,7 +278,7 @@ public class HmController {
                             record.setCreatePerson("admin");
                             record.setCreateTime(new Date());
                             String flag = "0";
-                            if(i==(pagelist.length-1)){
+                            if(j==(pagelist.length-1)){
                                 flag = "1";
                             }
                             record.setIsEnd(flag);
