@@ -54,6 +54,23 @@ public class HmController {
         return mv;
     }
     /**
+     * @param
+     * @Description: 跳转登录
+     * @return:
+     * @Author: zyfine
+     * @Date: 2019/12/9 16:30
+     */
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    public ModelAndView login() {
+        ModelAndView mv = new ModelAndView("/hm/manage/login");
+        try{
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return mv;
+    }
+    /**
      * @param name 名称
      * @Description: 通过名称查询图书
      * @return:
