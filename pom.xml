@@ -11,10 +11,15 @@
     <groupId>com.hm.hm_page</groupId>
     <artifactId>hm_page</artifactId>
     <version>0.0.1-SNAPSHOT</version>
+    <packaging>jar</packaging>
     <name>hm_page</name>
     <description>hm_page project for Spring Boot</description>
 
+
+
     <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
     </properties>
 
@@ -177,6 +182,7 @@
                 <configuration>
                     <!--fork:如果没有该项配置,整个devtools不会起作用-->
                     <fork>true</fork>
+                    <mainClass>com.hm.hm_page.HmPageApplication</mainClass>
                 </configuration>
             </plugin>
             <!-- mybatis generator 自动生成代码插件 -->

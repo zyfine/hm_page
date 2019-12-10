@@ -35,8 +35,14 @@
         <td >
             <a th:href="@{'/chapter/'+${book.id}}" th:text="${book.title}"></a>
         </td>
-        <td >
-            <img  th:src="${book.title_pic}" th:href="@{'/chapter/'+${book.id}}"/>
+        <td th:switch="${book.title_pic}">
+
+            <img th:if="${#strings.isEmpty(book.title_pic)}" src="/404.gif"/>
+            <img th:if="${book.title_pic} == null" src="/404.gif"/>
+            <img th:if="${book.title_pic} != null" th:src="${book.title_pic}"/>
+<!--            <img th:if="${#strings.isEmpty(book.title_pic)}"  src="/404.gif" />-->
+<!--            <img   th:src="${book.title_pic}"  />-->
+
         </td>
         <td th:text="${#dates.format(book.latest_time,'yyyy-MM-dd')}"></td>
     </tr>

@@ -136,6 +136,7 @@ public class HmController {
             String sql = " (select * from hm_book ) as a  ";
             List<HashMap> booklist = commonService.selectDataBySql(sql,pageNum,pageSize);
             int sqlnum = commonService.pageDataNum(sql);
+
             mv.addObject("booklist", booklist);
             mv.addObject("sqlnum", sqlnum);
             mv.addObject("currpage", pageNum);
@@ -151,7 +152,7 @@ public class HmController {
     }
 
     /**
-     * @param id
+     * @param
      * @Description: 获得图书明细和章节
      * @return:
      * @Author: zyfine
@@ -324,5 +325,8 @@ public class HmController {
         }
         return "ok";
     }
+
+
+
 
 }
