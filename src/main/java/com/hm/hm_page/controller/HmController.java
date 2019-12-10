@@ -41,7 +41,7 @@ public class HmController {
      */
     @RequestMapping(value = "/index", method = RequestMethod.GET)
     public ModelAndView getMainTitle() {
-        ModelAndView mv = new ModelAndView("/hm/index");
+        ModelAndView mv = new ModelAndView("hm/index");
         try{
             List<HmBook> booklist = hmBookService.getMainTitle(20);
             List<HmBook> newbooklist = hmBookService.getLastTitle(10);
@@ -62,7 +62,7 @@ public class HmController {
      */
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public ModelAndView login() {
-        ModelAndView mv = new ModelAndView("/hm/manage/login");
+        ModelAndView mv = new ModelAndView("hm/manage/login");
         try{
             
         } catch (Exception e) {
@@ -79,7 +79,7 @@ public class HmController {
      */
     @RequestMapping(value = "/search/{name}", method = RequestMethod.GET)
     public ModelAndView getMainTitle(@RequestParam(value = "pageNum",defaultValue="1") int pageNum,@PathVariable String name)  {
-        ModelAndView mv = new ModelAndView("/hm/search");
+        ModelAndView mv = new ModelAndView("hm/search");
         int pageSize = 10;
         name = SqlInjectionTool.filter(name);
         try{
@@ -109,7 +109,7 @@ public class HmController {
 //     */
 //    @RequestMapping(value = "/all", method = RequestMethod.GET)
 //    public ModelAndView getAllTitle(@RequestParam(value = "pageNum",defaultValue="1") int pageNum )  {
-//        ModelAndView mv = new ModelAndView("/hm/search");
+//        ModelAndView mv = new ModelAndView("hm/search");
 //        try{
 //            PageHelper.startPage(pageNum,10);
 //            List<HmBook> booklist = hmBookService.getAllTitle();
@@ -130,7 +130,7 @@ public class HmController {
      */
     @RequestMapping(value = "/allpage", method = RequestMethod.GET)
     public ModelAndView getAllTitleByPage(@RequestParam(value = "pageNum",defaultValue="1") int pageNum )  {
-        ModelAndView mv = new ModelAndView("/hm/search");
+        ModelAndView mv = new ModelAndView("hm/search");
         int pageSize = 10;
         try{
             String sql = " (select * from hm_book ) as a  ";
@@ -160,7 +160,7 @@ public class HmController {
      */
     @RequestMapping(value = "/chapter/{id}", method = RequestMethod.GET)
     public ModelAndView getChapterList(@PathVariable int id)  {
-        ModelAndView mv = new ModelAndView("/hm/chapterList");
+        ModelAndView mv = new ModelAndView("hm/chapterList");
         try{
             List<HmChapter> chapterlist = hmBookService.getHmChapterList(id);
             HmBook bookinfo = hmBookService.getHmBookDetail(id);
@@ -181,7 +181,7 @@ public class HmController {
      */
     @RequestMapping(value = "/pagede/{id}", method = RequestMethod.GET)
     public ModelAndView getPageList(@PathVariable int id,@RequestParam(value = "pageNum",defaultValue="1") int pageNum )  {
-        ModelAndView mv = new ModelAndView("/hm/pageInfo");
+        ModelAndView mv = new ModelAndView("hm/pageInfo");
         try{
             PageHelper.startPage(pageNum,1);
             HmChapter chapterinfo = hmBookService.getHmChapterDetail(id);
@@ -205,17 +205,16 @@ public class HmController {
     @RequestMapping(value = "/ins", method = RequestMethod.GET)
     public String insertHmChapter()  {
         try{
-//            String basePath = "/Users/zyfine/Desktop/mh/hm-new-img";
-            String basePath = "C:\\Users\\jslx\\Desktop\\hm-test";
+            String basePath = "/Volumes/zyfine/hm2/hm-final";
+//            String basePath = "C:\\Users\\jslx\\Desktop\\hm-test";
             String[] list=new File(basePath).list();
             System.out.println("book个数："+list.length);
-            List<String> booklist = new ArrayList<String>();
+            Arrays.sort(list);
             if(list!=null&&list.length>0){
                 for (String str : list) {//循环book名称
                     String bookPath = basePath+File.separator+str;
                     File file = new File(bookPath);
                     if(file.isDirectory()){//判断是否文件夹
-                        booklist.add(str);
                         HmBook record0 = new HmBook();
                         record0.setTitle(str);
                         record0.setAuthor("zyfine");
@@ -259,6 +258,9 @@ public class HmController {
                                 }
                             }
                             hmBookService.insertChapterBatch(chapters);
+                            chapters = null;
+                            System.out.println(str+"处理完");
+
                         }
                     }
                 }
@@ -279,11 +281,11 @@ public class HmController {
     @RequestMapping(value = "/inspage", method = RequestMethod.GET)
     public String insertHmChapterPage()  {
         try{
-            String path = "C:\\Users\\jslx\\Desktop\\hm-test";
-            String sql = "SELECT c.title,d.* FROM `hm_book` c,hm_chapter d where c.id=d.book_id";
+//            String path = "C:\\Users\\jslx\\Desktop\\hm-test";
+            String path = "/Volumes/zyfine/hm2/hm-final";
+            String sql = "SELECT c.title,d.* FROM `hm_book` c,hm_chapter d where c.id=d.book_id order by d.id";
             List<HashMap> chapterlist = commonService.selectDataBySql(sql);
             if (chapterlist!=null&&chapterlist.size()>0){
-                List<HmPage> pages = new ArrayList<HmPage>();
                 for (int i=0;i<chapterlist.size(); i++){
                     String bookname = StrUtil.getNotNullStrValue(chapterlist.get(i).get("title"));
                     String chaptername = StrUtil.getNotNullStrValue(chapterlist.get(i).get("chapter_name"));
@@ -293,6 +295,7 @@ public class HmController {
                     String[] pagelist=new File(pagepath).list();
                     //排序
                     pagelist = StrUtil.ArraySortStr(pagelist);
+                    List<HmPage> pages = new ArrayList<HmPage>();
                     if(pagelist!=null&&pagelist.length>0){
                         for (int j=0;j<pagelist.length; j++){
                             String pageName = StrUtil.getNotNullStrValue(pagelist[j]);
@@ -313,8 +316,10 @@ public class HmController {
                             pages.add(record);
                         }
                     }
+                    hmBookService.insertPageBatch(pages);
+                    pages = null;
+                    System.out.println("完成"+bookname+"-"+chaptername);
                 }
-                hmBookService.insertPageBatch(pages);
             }
 
         } catch (Exception e) {
@@ -322,6 +327,46 @@ public class HmController {
         }
         return "ok";
     }
+
+
+//    public static void main(String[] args) {
+//        String basePath = "/Volumes/zyfine/hm2/hm-final";
+//        String[] list=new File(basePath).list();
+//        System.out.println("book个数："+list.length);
+//        Arrays.sort(list);
+//        if(list!=null&&list.length>0){
+//            for (String str : list) {//循环book名称
+//                String bookPath = basePath+File.separator+str;
+//                File file = new File(bookPath);
+//                if(file.isDirectory()){//判断是否文件夹
+//                    //循环book子文件夹
+//                    String[] chapterlist=new File(bookPath).list();
+//                    //排序
+//                    Arrays.sort(chapterlist);
+//
+//                    if(chapterlist!=null&&chapterlist.length>0){
+//                        if (chapterlist[1].indexOf("img (")!=-1){
+//                            System.out.println(str+chapterlist[1]);
+//                            for (int i=0;i<chapterlist.length; i++) {
+//                                if (file.isDirectory()) {
+//                                    String chapterPath = basePath + File.separator + str + File.separator + chapterlist[i];
+//                                    String newname = chapterlist[i].replace("img (", "").replace(")", "");
+//                                    if (newname.length() == 1) {
+//                                        newname = "0" + newname;
+//                                    }
+//                                    String chapterPathNew = basePath + File.separator + str + File.separator + newname;
+//                                    File file0 = new File(chapterPath);
+//                                    file0.renameTo(new File(chapterPathNew));
+//                                }
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//    }
+
+
 
 
 
