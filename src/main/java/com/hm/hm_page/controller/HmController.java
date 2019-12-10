@@ -289,11 +289,8 @@ public class HmController {
                     String chaptername = StrUtil.getNotNullStrValue(chapterlist.get(i).get("chapter_name"));
                     int bookid = StrUtil.getNotNullIntValue(chapterlist.get(i).get("book_id")+"");
                     int chapterid = StrUtil.getNotNullIntValue(chapterlist.get(i).get("id")+"");
-
                     String pagepath = path + File.separator + bookname+ File.separator + chaptername;
-
                     String[] pagelist=new File(pagepath).list();
-
                     //排序
                     pagelist = StrUtil.ArraySortStr(pagelist);
                     if(pagelist!=null&&pagelist.length>0){
