@@ -33,7 +33,7 @@
     </tr>
     <tr th:each="book:${booklist}" class="trcc">
         <td >
-            <a th:href="@{'/chapter/'+${book.id}}" th:text="${book.title}"></a>
+            <a th:href="@{'chapter/'+${book.id}}" th:text="${book.title}"></a>
         </td>
         <td th:switch="${book.title_pic}">
 
@@ -58,7 +58,7 @@
         totalNum: totalNum, // 总页码
         totalList: total, // 记录总数量
         callback: function (num) { //回调函数
-            window.location.href = "/allpage?pageNum="+num;
+            window.location.href = "allpage?pageNum="+num;
         }
     });
 

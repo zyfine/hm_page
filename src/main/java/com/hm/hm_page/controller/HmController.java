@@ -8,6 +8,7 @@ import com.hm.hm_page.entity.HmChapter;
 import com.hm.hm_page.entity.HmPage;
 import com.hm.hm_page.entity.User;
 import com.hm.hm_page.service.HmBookService;
+import com.hm.hm_page.service.StaticService;
 import com.hm.hm_page.util.SqlInjectionTool;
 import com.hm.hm_page.util.StrUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,8 @@ public class HmController {
     private HmBookService hmBookService;
     @Autowired
     private CommonService commonService;
+    @Autowired
+    private StaticService staticService;
     /**
      * @param
      * @Description: 首页显示书目
@@ -64,7 +67,7 @@ public class HmController {
     public ModelAndView login() {
         ModelAndView mv = new ModelAndView("hm/manage/login");
         try{
-            
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -100,26 +103,54 @@ public class HmController {
         return mv;
     }
 
-//    /**
-//     * @param
-//     * @Description: pagehelper分页列表显示全部book
-//     * @return:
-//     * @Author: zyfine
-//     * @Date: 2019/11/21 10:32
-//     */
-//    @RequestMapping(value = "/all", method = RequestMethod.GET)
-//    public ModelAndView getAllTitle(@RequestParam(value = "pageNum",defaultValue="1") int pageNum )  {
-//        ModelAndView mv = new ModelAndView("hm/search");
-//        try{
-//            PageHelper.startPage(pageNum,10);
-//            List<HmBook> booklist = hmBookService.getAllTitle();
-//            PageInfo<User> pageInfo=new PageInfo(booklist,10);
-//            mv.addObject("booklist", booklist);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        return mv;
-//    }
+    /**
+     * @param
+     * @Description: 生成静态页首页
+     * @return:
+     * @Author: zyfine
+     * @Date: 2019/12/11 16:49
+     */
+    @RequestMapping(value = "/staticIndex", method = RequestMethod.GET)
+    public String staticIndex()  {
+        try{
+            staticService.createIndexHtml(1,10);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "ok";
+    }
+    /**
+     * @param 
+     * @Description:生成章节列表静态页
+     * @return:
+     * @Author: zyfine
+     * @Date: 2019/12/11 18:07
+     */
+    @RequestMapping(value = "/staticChapterList", method = RequestMethod.GET)
+    public String staticChapterList(int id)  {
+        try{
+            staticService.createChapterList(id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "ok";
+    }
+    /**
+     * @param
+     * @Description: 生成页面静态页
+     * @return:
+     * @Author: zyfine
+     * @Date: 2019/12/11 18:08
+     */
+    @RequestMapping(value = "/staticPageHtml", method = RequestMethod.GET)
+    public String staticPageHtml(int id)  {
+        try{
+            staticService.createPageHtml(id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "ok";
+    }
 
     /**
      * @param
@@ -160,7 +191,7 @@ public class HmController {
      */
     @RequestMapping(value = "/chapter/{id}", method = RequestMethod.GET)
     public ModelAndView getChapterList(@PathVariable int id)  {
-        ModelAndView mv = new ModelAndView("hm/chapterList");
+        ModelAndView mv = new ModelAndView("chapterlist");
         try{
             List<HmChapter> chapterlist = hmBookService.getHmChapterList(id);
             HmBook bookinfo = hmBookService.getHmBookDetail(id);
@@ -194,7 +225,26 @@ public class HmController {
         }
         return mv;
     }
-
+//    /**
+//     * @param
+//     * @Description: pagehelper分页列表显示全部book
+//     * @return:
+//     * @Author: zyfine
+//     * @Date: 2019/11/21 10:32
+//     */
+//    @RequestMapping(value = "/all", method = RequestMethod.GET)
+//    public ModelAndView getAllTitle(@RequestParam(value = "pageNum",defaultValue="1") int pageNum )  {
+//        ModelAndView mv = new ModelAndView("hm/search");
+//        try{
+//            PageHelper.startPage(pageNum,10);
+//            List<HmBook> booklist = hmBookService.getAllTitle();
+//            PageInfo<User> pageInfo=new PageInfo(booklist,10);
+//            mv.addObject("booklist", booklist);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return mv;
+//    }
     /**
      * @param
      * @Description: 插入book和章节信息

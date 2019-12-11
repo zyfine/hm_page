@@ -15,10 +15,10 @@
     </tr>
     <tr th:each="book:${booklist}">
         <td >
-            <a th:href="@{'/chapter/'+${book.id}}" th:text="${book.title}"></a>
+            <a th:href="@{'chapter/'+${book.id}}" th:text="${book.title}"></a>
         </td>
         <td >
-            <img  th:src="${book.titlePic}" th:href="@{'/chapter/'+${book.id}}"/>
+            <img  th:src="${book.titlePic}" th:href="@{'chapter/'+${book.id}}"/>
         </td>
         <td th:text="${#dates.format(book.latestTime,'yyyy-MM-dd')}"></td>
     </tr>
