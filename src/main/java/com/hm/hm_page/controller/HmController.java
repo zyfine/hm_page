@@ -205,8 +205,8 @@ public class HmController {
     @RequestMapping(value = "/ins", method = RequestMethod.GET)
     public String insertHmChapter()  {
         try{
-            String basePath = "/Volumes/zyfine/hm2/hm-final";
-//            String basePath = "C:\\Users\\jslx\\Desktop\\hm-test";
+//            String basePath = "/Volumes/zyfine/hm2/hm-final";
+            String basePath = "F:\\hm2\\hm-final";
             String[] list=new File(basePath).list();
             System.out.println("book个数："+list.length);
             Arrays.sort(list);
@@ -281,8 +281,8 @@ public class HmController {
     @RequestMapping(value = "/inspage", method = RequestMethod.GET)
     public String insertHmChapterPage()  {
         try{
-//            String path = "C:\\Users\\jslx\\Desktop\\hm-test";
-            String path = "/Volumes/zyfine/hm2/hm-final";
+            String path = "F:\\hm2\\hm-final";
+//            String path = "/Volumes/zyfine/hm2/hm-final";
             String sql = "SELECT c.title,d.* FROM `hm_book` c,hm_chapter d where c.id=d.book_id order by d.id";
             List<HashMap> chapterlist = commonService.selectDataBySql(sql);
             if (chapterlist!=null&&chapterlist.size()>0){
@@ -293,6 +293,9 @@ public class HmController {
                     int chapterid = StrUtil.getNotNullIntValue(chapterlist.get(i).get("id")+"");
                     String pagepath = path + File.separator + bookname+ File.separator + chaptername;
                     String[] pagelist=new File(pagepath).list();
+                    if(pagelist.length==0){
+                        System.out.println(bookname+ File.separator + chaptername);
+                    }
                     //排序
                     pagelist = StrUtil.ArraySortStr(pagelist);
                     List<HmPage> pages = new ArrayList<HmPage>();
@@ -327,44 +330,6 @@ public class HmController {
         }
         return "ok";
     }
-
-
-//    public static void main(String[] args) {
-//        String basePath = "/Volumes/zyfine/hm2/hm-final";
-//        String[] list=new File(basePath).list();
-//        System.out.println("book个数："+list.length);
-//        Arrays.sort(list);
-//        if(list!=null&&list.length>0){
-//            for (String str : list) {//循环book名称
-//                String bookPath = basePath+File.separator+str;
-//                File file = new File(bookPath);
-//                if(file.isDirectory()){//判断是否文件夹
-//                    //循环book子文件夹
-//                    String[] chapterlist=new File(bookPath).list();
-//                    //排序
-//                    Arrays.sort(chapterlist);
-//
-//                    if(chapterlist!=null&&chapterlist.length>0){
-//                        if (chapterlist[1].indexOf("img (")!=-1){
-//                            System.out.println(str+chapterlist[1]);
-//                            for (int i=0;i<chapterlist.length; i++) {
-//                                if (file.isDirectory()) {
-//                                    String chapterPath = basePath + File.separator + str + File.separator + chapterlist[i];
-//                                    String newname = chapterlist[i].replace("img (", "").replace(")", "");
-//                                    if (newname.length() == 1) {
-//                                        newname = "0" + newname;
-//                                    }
-//                                    String chapterPathNew = basePath + File.separator + str + File.separator + newname;
-//                                    File file0 = new File(chapterPath);
-//                                    file0.renameTo(new File(chapterPathNew));
-//                                }
-//                            }
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//    }
 
 
 

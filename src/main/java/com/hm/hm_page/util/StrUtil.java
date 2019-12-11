@@ -54,6 +54,9 @@ public class StrUtil {
 	 * @Date: 2019/12/7 14:31
 	 */
 	public static String[] ArraySortStr(String[] args){
+		if(args==null||args.length==0){
+			return args;
+		}
 		String[] str = new String[args.length];
 		Map<Integer,String> map = new TreeMap<Integer,String>();
 		if(args!=null&&args.length>0){
