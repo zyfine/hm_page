@@ -105,55 +105,6 @@ public class HmController {
 
     /**
      * @param
-     * @Description: 生成静态页首页
-     * @return:
-     * @Author: zyfine
-     * @Date: 2019/12/11 16:49
-     */
-    @RequestMapping(value = "/staticIndex", method = RequestMethod.GET)
-    public String staticIndex()  {
-        try{
-            staticService.createIndexHtml(1,10);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return "ok";
-    }
-    /**
-     * @param 
-     * @Description:生成章节列表静态页
-     * @return:
-     * @Author: zyfine
-     * @Date: 2019/12/11 18:07
-     */
-    @RequestMapping(value = "/staticChapterList", method = RequestMethod.GET)
-    public String staticChapterList(int id)  {
-        try{
-            staticService.createChapterList(id);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return "ok";
-    }
-    /**
-     * @param
-     * @Description: 生成页面静态页
-     * @return:
-     * @Author: zyfine
-     * @Date: 2019/12/11 18:08
-     */
-    @RequestMapping(value = "/staticPageHtml", method = RequestMethod.GET)
-    public String staticPageHtml(int id)  {
-        try{
-            staticService.createPageHtml(id);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return "ok";
-    }
-
-    /**
-     * @param
      * @Description: 翻页显示所有book
      * @return:
      * @Author: zyfine

@@ -1,6 +1,8 @@
 package com.hm.hm_page.service;
 
 import com.hm.hm_page.common.CommonService;
+import com.hm.hm_page.entity.HmChapter;
+import com.hm.hm_page.entity.HmPage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
@@ -117,8 +119,43 @@ public class StaticServiceImpl implements StaticService {
         }
     }
 
-    public void createPageHtml(int id){
+    public void createPageHtml(int chapterId,int bookid){
+        try {
+            ClassLoaderTemplateResolver resolver = new ClassLoaderTemplateResolver();
+            resolver.setPrefix("templates/");
+            resolver.setSuffix(".html");
+            TemplateEngine templateEngine = new TemplateEngine();
+            templateEngine.setTemplateResolver(resolver);
 
+            Context context = new Context();
+            List<HmPage> pageList = hmBookService.getHmPageList(chapterId);
+            context.setVariable("pageList", pageList);
+
+            /**获取输出目标文件输出流------开始*/
+            String filepath = this.getClass().getResource("/").toURI().getPath() + "static/hm_html/"+bookid+"/"+chapterId+"/";
+            System.out.println(filepath);
+            File folder = new File(filepath);
+            //如果文件夹不存在
+            if (!folder.exists()) {
+                folder.mkdir();
+            }
+            String indexFileName = "index.html";
+            File indexHtml = new File(folder, indexFileName);
+            //如果html文件不存在
+            if (!indexHtml.exists()) {
+                indexHtml.createNewFile();
+            }
+            Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(indexHtml), "UTF-8"));
+            /**获取输出目标文件输出流------结束*/
+
+            templateEngine.process("hm/chapterlist", context, writer);
+            writer.flush();
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
     }
 
 
