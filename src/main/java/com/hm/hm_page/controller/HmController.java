@@ -115,7 +115,7 @@ public class HmController {
         ModelAndView mv = new ModelAndView("hm/search");
         int pageSize = 10;
         try{
-            String sql = " select * from hm_book  ";
+            String sql = " (select * from hm_book ) as a  ";
             List<HashMap> booklist = commonService.selectDataBySql(sql,pageNum,pageSize);
             int sqlnum = commonService.pageDataNum(sql);
 
@@ -206,8 +206,8 @@ public class HmController {
     @RequestMapping(value = "/ins", method = RequestMethod.GET)
     public String insertHmChapter()  {
         try{
-//            String basePath = "/Volumes/zyfine/hm2/hm-final";
-            String basePath = "D:\\hm-final_webp";
+            String basePath = "/Volumes/zyfine/hm2/hm-final";
+//            String basePath = "F:\\hm2\\hm-final";
             String[] list=new File(basePath).list();
             System.out.println("book个数："+list.length);
             Arrays.sort(list);
@@ -282,8 +282,8 @@ public class HmController {
     @RequestMapping(value = "/inspage", method = RequestMethod.GET)
     public String insertHmChapterPage()  {
         try{
-            String path = "D:\\hm-final_webp";
-//            String path = "/Volumes/zyfine/hm2/hm-final";
+//            String path = "F:\\hm2\\hm-final";
+            String path = "/Volumes/zyfine/hm2/hm-final";
             String sql = "SELECT c.title,d.* FROM `hm_book` c,hm_chapter d where c.id=d.book_id order by d.id";
             List<HashMap> chapterlist = commonService.selectDataBySql(sql);
             if (chapterlist!=null&&chapterlist.size()>0){
