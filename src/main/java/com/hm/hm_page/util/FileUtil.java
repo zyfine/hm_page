@@ -110,8 +110,21 @@ public class FileUtil {
 //		
 //		return false;
 //    }
-    
-    
+    /**
+     * @param filename
+     * @Description: 活动文件大小
+     * @return:
+     * @Author: zyfine
+     * @Date: 2019/12/13 16:42
+     */
+    public static long getFileSize(String filename) {
+        File file = new File(filename);
+        if (!file.exists() || !file.isFile()) {
+            System.out.println("文件不存在");
+            return -1;
+        }
+        return file.length();
+    }
     /**
     * 移动单个文件  add by qiuzq 20111227.
     * @param srcFileName 待移动的原文件名

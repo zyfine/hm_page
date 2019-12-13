@@ -160,23 +160,22 @@ public class PDF2Image {
 							if(!markimgpath.exists()){
 								markimgpath.mkdirs();
 							}
-							try{
 								if(imgl!=null&&imgl.size()>0){
 									for (int i = 0; i < imgl.size(); i++) {
 										String w = imgl.get(i);
-										System.out.println("文件名："+w);
 								        String inputJpgPath = basePath+File.separator+str+File.separator+name+File.separator+w;
 								        String outputWebpPath = basePath+"_webp"+File.separator+str+File.separator+name+File.separator+w+".webp";
-								        Jar2Webp.getWebpImg(inputJpgPath, outputWebpPath);
-								        
-								        System.out.println(inputJpgPath);
-								        System.out.println(outputWebpPath);
+										try{
+								        	Jar2Webp.getWebpImg(inputJpgPath, outputWebpPath);
+										}catch(Exception ex){
+											ex.printStackTrace();
+											continue;
+										}
+//								        System.out.println(inputJpgPath);
+//								        System.out.println(outputWebpPath);
 									}
 								}
-
-							}catch(Exception ex){
-				            	continue;
-				            }	
+								System.out.println(imgl+"处理完："+imgl.size()+"条");
 						}
 					}
 				}
@@ -195,7 +194,6 @@ public class PDF2Image {
 				File file = new File(cbasePath);
 				if(!file.isDirectory()){//判断是否文件
 					l.add(str);
-//					System.out.println(str);
 				}
 			}
 		}	
@@ -282,11 +280,9 @@ public class PDF2Image {
 	
 
 	public static void main(String[] args) {
+		String basePath = "C:\\Users\\jslx\\Desktop\\hm-test";
 //		new  PDF2Image().getAllImg("F:\\mh\\hm-new-pdf");
-//		new  PDF2Image().copyAllFolderWebp("/Users/zyfine/Desktop/hm-test");
-
-		new  PDF2Image().getAllFolder("F:\\hm2\\hm-final\\186-我的秘密女友");
-
+		new  PDF2Image().copyAllFolderWebp(basePath);
 
 
 	}

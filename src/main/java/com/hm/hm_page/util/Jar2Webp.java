@@ -41,7 +41,7 @@ public class Jar2Webp {
         // Encode
         long st = System.currentTimeMillis();
         writer.write(null, new IIOImage(image, null, null), writeParam);
-        System.out.println("cost: " + (System.currentTimeMillis() - st));
+        System.out.println("耗时: " + (System.currentTimeMillis() - st));
 	}
 	
 	
