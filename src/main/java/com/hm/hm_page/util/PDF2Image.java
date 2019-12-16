@@ -91,15 +91,23 @@ public class PDF2Image {
 	* @throws
 	 */
 	public void getAllImg(String basePath){
+		File imgpath = new File(basePath+"_img");
+		if(!imgpath.exists()){//不存在则创建
+			imgpath.mkdirs();
+		}
 		String[] list=new File(basePath).list();
 		System.out.println("文件夹个数："+list.length);
 		if(list!=null&&list.length>0){
 			for (String str : list) {//循环子文件夹
 				String cbasePath = basePath+File.separator+str;
-				File file = null;
-				file = new File(cbasePath);
+				File file = new File(cbasePath);
 				if(file.isDirectory()){//判断是否文件夹
 					System.out.println("开始处理（"+str+"）文件夹");
+					//复制文件夹
+					File imgchildpath = new File(imgpath+File.separator+str);
+					if(!imgchildpath.exists()){
+						imgchildpath.mkdirs();
+					}
 					String[] list2=new File(cbasePath).list();
 					if(list2!=null&&list2.length>0){
 						System.out.println("开始循环pdf文件"+"文件个数："+list2.length);
@@ -108,10 +116,10 @@ public class PDF2Image {
 							if(name.toUpperCase().endsWith(".PDF")){//包含结尾pdf文件
 								//创建文件夹"pdf文件名_img"
 								File jpgpath = new File(cbasePath+File.separator+name+"_img");
+								//复制文件夹
 								if(!jpgpath.exists()){//不存在则创建
 									jpgpath.mkdirs();
-									File pdffile = null;
-									pdffile = new File(cbasePath+File.separator+name);
+									File pdffile = new File(cbasePath+File.separator+name);
 									String targerFolder = cbasePath+File.separator+name+"_img"+File.separator;
 									System.out.println("pdf路径："+cbasePath+File.separator+name);
 									System.out.println("保存文件夹路径："+targerFolder);
@@ -159,23 +167,26 @@ public class PDF2Image {
 							File markimgpath = new File(basePath+"_webp"+File.separator+str+File.separator+name);
 							if(!markimgpath.exists()){
 								markimgpath.mkdirs();
+							}else{
+								System.out.println(markimgpath+"。已经存在");
+								continue;
 							}
-								if(imgl!=null&&imgl.size()>0){
-									for (int i = 0; i < imgl.size(); i++) {
-										String w = imgl.get(i);
-								        String inputJpgPath = basePath+File.separator+str+File.separator+name+File.separator+w;
-								        String outputWebpPath = basePath+"_webp"+File.separator+str+File.separator+name+File.separator+w+".webp";
-										try{
-								        	Jar2Webp.getWebpImg(inputJpgPath, outputWebpPath);
-										}catch(Exception ex){
-											ex.printStackTrace();
-											continue;
-										}
+							if(imgl!=null&&imgl.size()>0){
+								for (int i = 0; i < imgl.size(); i++) {
+									String w = imgl.get(i);
+									String inputJpgPath = basePath+File.separator+str+File.separator+name+File.separator+w;
+									String outputWebpPath = basePath+"_webp"+File.separator+str+File.separator+name+File.separator+w+".webp";
+									try{
+										Jar2Webp.getWebpImg(inputJpgPath, outputWebpPath);
+									}catch(Exception ex){
+										ex.printStackTrace();
+										continue;
+									}
 //								        System.out.println(inputJpgPath);
 //								        System.out.println(outputWebpPath);
-									}
 								}
-								System.out.println(imgl+"处理完："+imgl.size()+"条");
+							}
+							System.out.println(imgl+"处理完："+imgl.size()+"条");
 						}
 					}
 				}
