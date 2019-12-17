@@ -33,8 +33,7 @@ public class PDF2Image {
 		boolean result = true;
 		
 		try{
-			PDDocument document = null;
-			document = PDDocument.load(file);
+			PDDocument document = PDDocument.load(file);
 			 
 		 	List<PDPage> pages = null;
 			pages = document.getDocumentCatalog().getAllPages();
@@ -48,16 +47,13 @@ public class PDF2Image {
 			    	continue;
 			    }
 			    Map<String, PDXObjectImage> images = resources.getImages();
-			    if(images != null)
-			    {
+			    if(images != null) {
 					Iterator<String> imageIter = null;
 					imageIter = images.keySet().iterator();
-			        while(imageIter.hasNext())
-			        {
+			        while(imageIter.hasNext()) {
 			        	count++;
 			            String key = (String)imageIter.next();
-			            PDXObjectImage image = null;
-			            image = (PDXObjectImage)images.get( key );
+			            PDXObjectImage image = (PDXObjectImage)images.get( key );
 			            String name = count+"";	// 图片文件名
 			            try{
 				            System.out.println("保存图片地址："+targetFolder + name);
@@ -68,6 +64,7 @@ public class PDF2Image {
 							}
 							file0 = null;
 			            }catch(Exception ex){
+							System.out.println("pdf解析出错");
 			            	continue;
 			            }
 						image = null;
@@ -115,18 +112,20 @@ public class PDF2Image {
 							System.out.println("开始处理："+str+"文件夹"+name+"文件");
 							if(name.toUpperCase().endsWith(".PDF")){//包含结尾pdf文件
 								//创建文件夹"pdf文件名_img"
-								File jpgpath = new File(cbasePath+File.separator+name+"_img");
-								//复制文件夹
-								if(!jpgpath.exists()){//不存在则创建
-									jpgpath.mkdirs();
-									File pdffile = new File(cbasePath+File.separator+name);
-									String targerFolder = cbasePath+File.separator+name+"_img"+File.separator;
-									System.out.println("pdf路径："+cbasePath+File.separator+name);
-									System.out.println("保存文件夹路径："+targerFolder);
-									extractImages(pdffile, targerFolder);
-									pdffile = null;
-								}else{
-									System.out.println(name+"_img已经提取过图片");
+								File jpgpath = new File(imgchildpath+File.separator+name);
+								if(!jpgpath.isDirectory()){//如果不是文件夹
+									//复制文件夹
+									if(!jpgpath.exists()){//不存在则创建
+										jpgpath.mkdirs();
+										File pdffile = new File(cbasePath+File.separator+name);
+										String targerFolder = imgchildpath+File.separator+name+File.separator;
+										System.out.println("pdf路径："+cbasePath+File.separator+name);
+										System.out.println("保存文件夹路径："+targerFolder);
+										extractImages(pdffile, targerFolder);
+										pdffile = null;
+									}else{
+										System.out.println(name+"_img已经提取过图片");
+									}
 								}
 							}
 						}
@@ -292,9 +291,8 @@ public class PDF2Image {
 
 	public static void main(String[] args) {
 		String basePath = "C:\\Users\\jslx\\Desktop\\hm-test";
-//		new  PDF2Image().getAllImg("F:\\mh\\hm-new-pdf");
-		new  PDF2Image().copyAllFolderWebp(basePath);
-
+		new  PDF2Image().getAllImg("C:\\Users\\jslx\\Desktop\\hm-test");
+//		new  PDF2Image().copyAllFolderWebp(basePath);
 
 	}
 
