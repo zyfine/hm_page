@@ -174,15 +174,23 @@ public class PDF2Image {
 								for (int i = 0; i < imgl.size(); i++) {
 									String w = imgl.get(i);
 									String inputJpgPath = basePath+File.separator+str+File.separator+name+File.separator+w;
+									String outputWebpPath0 = basePath+"_webp"+File.separator+str+File.separator+name+File.separator+w;
 									String outputWebpPath = basePath+"_webp"+File.separator+str+File.separator+name+File.separator+w+".webp";
+									if (w.toUpperCase().indexOf(".PNG")!=-1){
+										try{
+											FileUtil.copyFile(inputJpgPath,outputWebpPath0);
+										}catch(Exception ex){
+											ex.printStackTrace();
+											continue;
+										}
+										continue;
+									}
 									try{
 										Jar2Webp.getWebpImg(inputJpgPath, outputWebpPath);
 									}catch(Exception ex){
 										ex.printStackTrace();
 										continue;
 									}
-//								        System.out.println(inputJpgPath);
-//								        System.out.println(outputWebpPath);
 								}
 							}
 							System.out.println(imgl+"处理完："+imgl.size()+"条");
@@ -290,9 +298,9 @@ public class PDF2Image {
 	
 
 	public static void main(String[] args) {
-		String basePath = "C:\\Users\\jslx\\Desktop\\hm-test";
-		new  PDF2Image().getAllImg("C:\\Users\\jslx\\Desktop\\hm-test");
-//		new  PDF2Image().copyAllFolderWebp(basePath);
+		String basePath = "D:\\hm-final";
+//		new  PDF2Image().getAllImg("C:\\Users\\jslx\\Desktop\\hm-test");
+		new  PDF2Image().copyAllFolderWebp(basePath);
 
 	}
 

@@ -58,7 +58,7 @@ public class Test {
 // 查看那些空目录
 //    public static void main(String[] args) {
 ////        String basePath = "/Volumes/zyfine/hm2/hm-final";
-//        String basePath = "F:\\hm2\\hm-final";
+//        String basePath = "D:\\hm-final_webp";
 //        String[] list=new File(basePath).list();
 //        System.out.println("book个数："+list.length);
 //        Arrays.sort(list);
@@ -76,6 +76,7 @@ public class Test {
 //                                    String chapterPath = basePath + File.separator + list[i] + File.separator + chapterlist[j];
 //                                    String[] pagelist=new File(chapterPath).list();
 //                                    if (pagelist!=null&&pagelist.length>0){
+//                                    }else{
 //                                        System.out.println(chapterPath);
 //                                    }
 //                                }
@@ -126,13 +127,14 @@ public class Test {
 //    }
 
 
-    public static void main(String[] args) throws IOException{
-        File picture = new File("C:\\Users\\jslx\\Desktop\\hm-test\\005-要交换吗\\05.PDF_img\\4.jpg");
-        BufferedImage sourceImg = ImageIO.read(new FileInputStream(picture));
-        System.out.println(String.format("%.1f",picture.length()/1024.0));// 源图大小
-        System.out.println(sourceImg.getWidth()); // 源图宽度
-        System.out.println(sourceImg.getHeight()); // 源图高度
-    }
+//    public static void main(String[] args) throws IOException{
+//        File picture = new File("C:\\Users\\jslx\\Desktop\\hm-test\\005-要交换吗\\05.PDF_img\\4.jpg");
+//        BufferedImage sourceImg = ImageIO.read(new FileInputStream(picture));
+//        System.out.println(String.format("%.1f",picture.length()/1024.0));// 源图大小
+//        System.out.println(sourceImg.getWidth()); // 源图宽度
+//        System.out.println(sourceImg.getHeight()); // 源图高度
+//
+//    }
 
 
 

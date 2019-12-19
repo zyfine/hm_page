@@ -4,7 +4,7 @@
 <head>
     <meta content="text/html;charset=UTF-8"/>
     <script src="http://www.jq22.com/jquery/jquery-1.10.2.js"></script>
-    <script src="/static/hm/pageMe.js"></script>
+    <script src="pageMe.js"></script>
     <title>search</title>
 </head>
 <style>
@@ -33,7 +33,7 @@
     </tr>
     <tr th:each="book:${booklist}" class="trcc">
         <td >
-            <a th:href="@{'chapter/'+${book.id}}" th:text="${book.title}"></a>
+            <a th:href="@{${book.id}+'/index.html'}" th:text="${book.title}"></a>
         </td>
         <td th:switch="${book.title_pic}">
 
@@ -58,7 +58,12 @@
         totalNum: totalNum, // 总页码
         totalList: total, // 记录总数量
         callback: function (num) { //回调函数
-            window.location.href = "allpage?pageNum="+num;
+            if(num==1){
+                window.location.href = "index.html";
+            }else{
+                window.location.href = "index"+num+".html";
+            }
+
         }
     });
 

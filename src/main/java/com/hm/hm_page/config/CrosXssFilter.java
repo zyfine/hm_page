@@ -21,7 +21,7 @@ public class CrosXssFilter implements Filter {
     private static final Logger logger = LoggerFactory.getLogger(CrosXssFilter.class);
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-        System.out.println("Xss过滤初始化");
+//        System.out.println("Xss过滤初始化");
     }
     @Override
     public void doFilter(ServletRequest request, ServletResponse response,

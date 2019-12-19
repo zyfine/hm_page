@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout= "http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta content="text/html;charset=UTF-8"/>
+
+    <title>Title</title>
+</head>
+<body>
+<table border="2">
+    <thead>
+    <tr>
+        <td>标题</td>
+        <td>更新时间</td>
+    </tr>
+    <tr>
+        <td th:text="${bookinfo.title}"></td>
+        <td th:text="${#dates.format(bookinfo.latestTime,'yyyy-MM-dd')}"></td>
+    </tr>
+    </thead>
+</table>
+<table border="2">
+    <tr th:each="chapter:${chapterlist}" >
+        <td>
+            <a th:href="@{${chapter.id}+'/index.html'}" th:text="${chapter.chapterName}"></a>
+        </td>
+    </tr>
+</table>
+
+</body>
+</html>

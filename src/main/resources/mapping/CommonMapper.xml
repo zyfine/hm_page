@@ -17,11 +17,11 @@
     </select>
 
     <select id="pageDataListMysql" parameterType="java.util.HashMap" resultType="java.util.HashMap">
-        select * from (${sql}) limit #{currIndex} , #{pageSize}
+        select * from ( (${sql}) a) limit #{currIndex} , #{pageSize}
     </select>
 
     <select id="pageDataNum"  parameterType="java.lang.String" resultType="java.lang.Integer">
-  	    SELECT count(*) from (${sql})
+  	    SELECT count(*) from ((${sql}) a)
     </select>
     <!-- 通用sql查询列表 -->
     <select id="selectDataBySql"  parameterType="java.lang.String" resultType="java.util.HashMap">

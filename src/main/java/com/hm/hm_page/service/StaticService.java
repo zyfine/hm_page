@@ -8,7 +8,7 @@ public interface StaticService {
 
     void createChapterList(int id);
 
-    void createPageHtml(int id,int bookid);
+    void createPageHtml(int id,int bookid,int pnum, int pageSize);
 
 
 }

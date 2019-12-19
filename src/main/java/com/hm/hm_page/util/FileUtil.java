@@ -1,10 +1,6 @@
 package com.hm.hm_page.util;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -268,7 +264,47 @@ public class FileUtil {
          }     
         }
      }
-     
+
+     /**
+      * @param infile    源文件
+      * @param outfile   复制文件
+      * @Description: 复制文件到另一个目录
+      * @return:
+      * @Author: zyfine
+      * @Date: 2019/12/18 15:25
+      */
+     public static void copyFile(String infile,String outfile) throws IOException {
+         // 创建一个带缓冲区的输入流
+         BufferedInputStream bis = new BufferedInputStream(new FileInputStream(infile));
+         // 创建一个带缓冲区的输出流
+         BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(outfile));
+
+         // 定义一个字节数组，作为缓冲区
+         byte[] buff = new byte[1024];
+         long begintime = System.currentTimeMillis(); // 获取拷贝文件前的系统时间
+         int len;
+         while ((len = bis.read(buff)) != -1) {
+             bos.write(buff, 0, len); // 从第一个字节开始，向文件写入len个字节
+         }
+         long endtime = System.currentTimeMillis(); // 获取文件拷贝结束时的系统时间
+         System.out.println("拷贝文件所消耗的时间是：" + (endtime - begintime) + "毫秒");
+         bis.close();
+         bos.close();
+
+     }
+
+
+
+
+
+
+
+
+
+
+
+
+
     public static void main(String[] args) throws IOException {
 //    	File f = new File("D:/pro_syd/mininew/web/upload/img/101906403011106231241310000801_1.jpg");
 //    	String filepath = "D:/pro_syd/mininew/web/upload/file/1313658621453.xls";
