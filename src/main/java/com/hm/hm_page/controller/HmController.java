@@ -261,7 +261,6 @@ public class HmController {
                             hmBookService.insertChapterBatch(chapters);
                             chapters = null;
                             System.out.println(str+"处理完");
-
                         }
                     }
                 }

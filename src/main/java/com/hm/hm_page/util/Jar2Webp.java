@@ -9,6 +9,7 @@ import com.luciad.imageio.webp.WebPWriteParam;
  
 import javax.imageio.IIOImage;
 import javax.imageio.ImageIO;
+import javax.imageio.ImageWriteParam;
 import javax.imageio.ImageWriter;
 import javax.imageio.stream.FileImageOutputStream;
 
@@ -30,14 +31,14 @@ public class Jar2Webp {
  
         // Obtain a WebP ImageWriter instance
         ImageWriter writer = ImageIO.getImageWritersByMIMEType("image/webp").next();
- 
+
         // Configure encoding parameters
         WebPWriteParam writeParam = new WebPWriteParam(writer.getLocale());
         writeParam.setCompressionMode(WebPWriteParam.MODE_DEFAULT);
  
         // Configure the output on the ImageWriter
         writer.setOutput(new FileImageOutputStream(new File(outputWebpPath)));
- 
+
         // Encode
         long st = System.currentTimeMillis();
         writer.write(null, new IIOImage(image, null, null), writeParam);
@@ -46,14 +47,38 @@ public class Jar2Webp {
 	
 	
 	
-	 public static void main(String args[]) throws IOException {
+//	 public static void main(String args[]) throws IOException {
+//
+//	        String inputJpgPath = "/Users/zyfine/Desktop/4.png";
+//	        String outputWebpPath = "/Users/zyfine/Desktop/4.png.webp";
+//	        Jar2Webp.getWebpImg(inputJpgPath, outputWebpPath);
+//
+//	    }
 
-	        String inputJpgPath = "/Users/zyfine/Desktop/pic_001.jpg";
-	        String outputWebpPath = "/Users/zyfine/Desktop/pic_001.jpg.webp";
-	        Jar2Webp.getWebpImg(inputJpgPath, outputWebpPath);
-	       
-	    }
-
-
+//	public static void main(String args[]) throws IOException {
+//		String inputPngPath = "/Users/zyfine/Desktop/13.png";
+//		String inputJpgPath = "/Users/zyfine/Desktop/4.jpg";
+//		String outputWebpPath = "/Users/zyfine/Desktop/4.webp";
+//
+//		// Obtain an image to encode from somewhere
+//		BufferedImage image = ImageIO.read(new File(inputPngPath));
+//
+//		// Obtain a WebP ImageWriter instance
+//		ImageWriter writer = ImageIO.getImageWritersByMIMEType("image/webp").next();
+//
+//		// Configure encoding parameters
+//		WebPWriteParam writeParam = new WebPWriteParam(writer.getLocale());
+//		writeParam.setCompressionMode(WebPWriteParam.MODE_DEFAULT);
+//
+//
+//		// Configure the output on the ImageWriter
+//		writer.setOutput(new FileImageOutputStream(new File(outputWebpPath)));
+//
+//		// Encode
+//		long st = System.currentTimeMillis();
+//		writer.write(null, new IIOImage(image, null, null), writeParam);
+//		System.out.println("耗时: " + (System.currentTimeMillis() - st));
+//
+//	}
 	
 }
