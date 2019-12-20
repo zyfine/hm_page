@@ -1,6 +1,8 @@
 package com.hm.hm_page.controller;
 
 
+import cn.hutool.core.util.RandomUtil;
+import cn.hutool.json.JSONUtil;
 import com.hm.hm_page.common.CommonService;
 import com.hm.hm_page.service.HmBookService;
 import com.hm.hm_page.service.StaticService;
@@ -92,7 +94,7 @@ public class StaticController {
             String sql = " select * from hm_chapter  ";
             List<HashMap> list = commonService.selectDataBySql(sql);
             if (list!=null&&list.size()>0){
-                for (int i = 0; i < 1; i++) {
+                for (int i = 0; i < list.size(); i++) {
                     HashMap m = list.get(i);
                     int chapterId = StrUtil.getNotNullIntValue(m.get("id")+"");
                     int bookId = StrUtil.getNotNullIntValue(m.get("book_id")+"");
@@ -105,7 +107,6 @@ public class StaticController {
                     for (int k = 1; k < totalPage+1; k++) {
                         staticService.createPageHtml(chapterId,bookId,k,1);
                     }
-
                 }
             }
         } catch (Exception e) {

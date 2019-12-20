@@ -33,8 +33,8 @@ public class HmBookService {
      */
     public List<HmBook> getMainTitle(int num){
         HmBookExample e = new HmBookExample();
-        List<HmBook> list = hmBookMapper.selectByExample(e);
         e.setOrderByClause(" hot desc limit "+num);
+        List<HmBook> list = hmBookMapper.selectByExample(e);
         return list;
     }
 
@@ -48,8 +48,8 @@ public class HmBookService {
     public List<HmBook> getMainTitleByName(String name){
         HmBookExample e = new HmBookExample();
         e.createCriteria().andTitleLike(name);
-        List<HmBook> list = hmBookMapper.selectByExample(e);
         e.setOrderByClause(" hot desc ");
+        List<HmBook> list = hmBookMapper.selectByExample(e);
         return list;
     }
     /**

@@ -4,7 +4,7 @@
 <head>
     <meta content="text/html;charset=UTF-8"/>
     <script src="http://www.jq22.com/jquery/jquery-1.10.2.js"></script>
-    <script src="/static/hm/pageMe.js"></script>
+    <script type="text/javascript" th:src="@{/hm/pageMe.js}"></script>
     <title>search</title>
 </head>
 <style>
@@ -22,6 +22,20 @@
     .page_div button:disabled{opacity:.5;cursor:no-drop}
 </style>
 <body>
+
+<table border="2">
+    <thead>
+        <tr>
+            <td>查找</td>
+            <td>
+                <input type="text" id="title" name="title" th:value="${title}"/>
+            </td>
+            <td>
+                <input onclick="ajaxSubmit()" type="button" value="提交" />
+            </td>
+        </tr>
+    </thead>
+</table>
 <div id="page" class="page_div"></div>
 
 <table border="2">
@@ -33,15 +47,13 @@
     </tr>
     <tr th:each="book:${booklist}" class="trcc">
         <td >
-            <a th:href="@{'chapter/'+${book.id}}" th:text="${book.title}"></a>
+            <a th:href="@{'/chapter/'+${book.id}}" th:text="${book.title}"></a>
         </td>
         <td th:switch="${book.title_pic}">
 
             <img th:if="${#strings.isEmpty(book.title_pic)}" src="/404.gif"/>
             <img th:if="${book.title_pic} == null" src="/404.gif"/>
             <img th:if="${book.title_pic} != null" th:src="${book.title_pic}"/>
-<!--            <img th:if="${#strings.isEmpty(book.title_pic)}"  src="/404.gif" />-->
-<!--            <img   th:src="${book.title_pic}"  />-->
 
         </td>
         <td th:text="${#dates.format(book.latest_time,'yyyy-MM-dd')}"></td>
@@ -53,15 +65,19 @@
     var total = [[${sqlnum}]];
     var currpage = [[${currpage}]];
     var totalNum = [[${totalNum}]];
+    var title = $("#title").val();
     $("#page").paging({
         pageNum: currpage, // 当前页面
         totalNum: totalNum, // 总页码
         totalList: total, // 记录总数量
         callback: function (num) { //回调函数
-            window.location.href = "allpage?pageNum="+num;
+            window.location = "\\search\\"+title+"?pageNum="+num;
         }
     });
-
+    function ajaxSubmit(){
+        var title = $("#title").val();
+        window.location = "\\search\\"+title;
+    }
 
 </script>
 

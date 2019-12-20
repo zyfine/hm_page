@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.validation.Valid;
 import java.io.File;
 import java.math.BigDecimal;
 import java.util.*;
@@ -43,36 +44,27 @@ public class HmController {
      * @Date: 2019/11/20 17:02
      */
     @RequestMapping(value = "/index", method = RequestMethod.GET)
-    public ModelAndView getMainTitle() {
+    public ModelAndView getMainTitle(@RequestParam(value = "pageNum",defaultValue="1") int pageNum) {
         ModelAndView mv = new ModelAndView("hm/index");
+        int pageSize = 10;
         try{
-            List<HmBook> booklist = hmBookService.getMainTitle(20);
-            List<HmBook> newbooklist = hmBookService.getLastTitle(10);
+            String sql = " select * from hm_book ORDER BY hot desc ";
+            List<HashMap> booklist = commonService.selectDataBySql(sql,pageNum,pageSize);
+            int sqlnum = commonService.pageDataNum(sql);
             mv.addObject("booklist", booklist);
-            mv.addObject("newbooklist", newbooklist);
-
+            mv.addObject("sqlnum", sqlnum);
+            mv.addObject("currpage", pageNum);
+            int totalPage = (sqlnum/pageSize);
+            if(sqlnum%pageSize!=0){
+                totalPage = (sqlnum/pageSize)+1;
+            }
+            mv.addObject("totalNum", totalPage);
         } catch (Exception e) {
             e.printStackTrace();
         }
         return mv;
     }
-    /**
-     * @param
-     * @Description: 跳转登录
-     * @return:
-     * @Author: zyfine
-     * @Date: 2019/12/9 16:30
-     */
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public ModelAndView login() {
-        ModelAndView mv = new ModelAndView("hm/manage/login");
-        try{
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return mv;
-    }
     /**
      * @param name 名称
      * @Description: 通过名称查询图书
@@ -80,13 +72,16 @@ public class HmController {
      * @Author: zyfine
      * @Date: 2019/11/20 17:08
      */
-    @RequestMapping(value = "/search/{name}", method = RequestMethod.GET)
-    public ModelAndView getMainTitle(@RequestParam(value = "pageNum",defaultValue="1") int pageNum,@PathVariable String name)  {
+    @RequestMapping(value = "/searchform", method = RequestMethod.POST)
+    public ModelAndView getSearchForm(@RequestParam(value = "pageNum",defaultValue="1") int pageNum, HmBook book)  {
+
         ModelAndView mv = new ModelAndView("hm/search");
+        String name = book.getTitle();
         int pageSize = 10;
         name = SqlInjectionTool.filter(name);
+        System.out.println(name);
         try{
-            String sql = " (select * from hm_book where tilte like '%"+name+"%') as a  ";
+            String sql = " select * from hm_book where title like '%"+name+"%' ";
             List<HashMap> booklist = commonService.selectDataBySql(sql,pageNum,pageSize);
             int sqlnum = commonService.pageDataNum(sql);
             mv.addObject("booklist", booklist);
@@ -97,12 +92,36 @@ public class HmController {
                 totalPage = (sqlnum/pageSize)+1;
             }
             mv.addObject("totalNum", totalPage);
+            mv.addObject("title", name);
         } catch (Exception e) {
             e.printStackTrace();
         }
         return mv;
     }
+    @RequestMapping(value = "/search/{title}", method = RequestMethod.GET)
+    public ModelAndView getSearchTitle(@RequestParam(value = "pageNum",defaultValue="1") int pageNum,  @PathVariable String title)  {
 
+        ModelAndView mv = new ModelAndView("hm/search");
+        int pageSize = 10;
+        title = SqlInjectionTool.filter(title);
+        try{
+            String sql = " select * from hm_book where title like '%"+title+"%' ";
+            List<HashMap> booklist = commonService.selectDataBySql(sql,pageNum,pageSize);
+            int sqlnum = commonService.pageDataNum(sql);
+            mv.addObject("booklist", booklist);
+            mv.addObject("sqlnum", sqlnum);
+            mv.addObject("currpage", pageNum);
+            int totalPage = (sqlnum/pageSize);
+            if(sqlnum%pageSize!=0){
+                totalPage = (sqlnum/pageSize)+1;
+            }
+            mv.addObject("totalNum", totalPage);
+            mv.addObject("title", title);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return mv;
+    }
     /**
      * @param
      * @Description: 翻页显示所有book
@@ -110,28 +129,28 @@ public class HmController {
      * @Author: zyfine
      * @Date: 2019/12/2 11:26
      */
-    @RequestMapping(value = "/allpage", method = RequestMethod.GET)
-    public ModelAndView getAllTitleByPage(@RequestParam(value = "pageNum",defaultValue="1") int pageNum )  {
-        ModelAndView mv = new ModelAndView("hm/search");
-        int pageSize = 10;
-        try{
-            String sql = " (select * from hm_book ) as a  ";
-            List<HashMap> booklist = commonService.selectDataBySql(sql,pageNum,pageSize);
-            int sqlnum = commonService.pageDataNum(sql);
-
-            mv.addObject("booklist", booklist);
-            mv.addObject("sqlnum", sqlnum);
-            mv.addObject("currpage", pageNum);
-            int totalPage = (sqlnum/pageSize);
-            if(sqlnum%pageSize!=0){
-                totalPage = (sqlnum/pageSize)+1;
-            }
-            mv.addObject("totalNum", totalPage);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return mv;
-    }
+//    @RequestMapping(value = "/allpage", method = RequestMethod.GET)
+//    public ModelAndView getAllTitleByPage(@RequestParam(value = "pageNum",defaultValue="1")  @PathVariable int pageNum )  {
+//        ModelAndView mv = new ModelAndView("hm/search");
+//        int pageSize = 10;
+//        try{
+//            String sql = " select * from hm_book   ";
+//            List<HashMap> booklist = commonService.selectDataBySql(sql,pageNum,pageSize);
+//            int sqlnum = commonService.pageDataNum(sql);
+//
+//            mv.addObject("booklist", booklist);
+//            mv.addObject("sqlnum", sqlnum);
+//            mv.addObject("currpage", pageNum);
+//            int totalPage = (sqlnum/pageSize);
+//            if(sqlnum%pageSize!=0){
+//                totalPage = (sqlnum/pageSize)+1;
+//            }
+//            mv.addObject("totalNum", totalPage);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return mv;
+//    }
 
     /**
      * @param
@@ -142,7 +161,7 @@ public class HmController {
      */
     @RequestMapping(value = "/chapter/{id}", method = RequestMethod.GET)
     public ModelAndView getChapterList(@PathVariable int id)  {
-        ModelAndView mv = new ModelAndView("chapterlist");
+        ModelAndView mv = new ModelAndView("hm/chapterlist");
         try{
             List<HmChapter> chapterlist = hmBookService.getHmChapterList(id);
             HmBook bookinfo = hmBookService.getHmBookDetail(id);
@@ -164,13 +183,19 @@ public class HmController {
     @RequestMapping(value = "/pagede/{id}", method = RequestMethod.GET)
     public ModelAndView getPageList(@PathVariable int id,@RequestParam(value = "pageNum",defaultValue="1") int pageNum )  {
         ModelAndView mv = new ModelAndView("hm/pageInfo");
+        int pageSize = 1;
         try{
-            PageHelper.startPage(pageNum,1);
-            HmChapter chapterinfo = hmBookService.getHmChapterDetail(id);
-            List<HmPage> pageList = hmBookService.getHmPageList(id);
-            PageInfo<User> pageInfo = new PageInfo(pageList,3);
-            mv.addObject("chapterinfo", chapterinfo);
+            String sql = "select * from hm_page where chapter_id = "+id;
+            List<HashMap> pageList = commonService.selectDataBySql(sql,pageNum,pageSize);
+            int sqlnum = commonService.pageDataNum(sql);
+            int totalPage = (sqlnum/pageSize);
+            if(sqlnum%pageSize!=0){
+                totalPage = (sqlnum/pageSize)+1;
+            }
             mv.addObject("pageList", pageList);
+            mv.addObject("sqlnum", sqlnum);
+            mv.addObject("currpage", pageNum);
+            mv.addObject("totalNum", totalPage);
         } catch (Exception e) {
             e.printStackTrace();
         }

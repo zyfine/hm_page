@@ -21,7 +21,7 @@
 <table border="2">
     <tr th:each="chapter:${chapterlist}" >
         <td>
-            <a th:href="@{'pagede/'+${chapter.id}}" th:text="${chapter.chapterName}"></a>
+            <a th:href="@{'/pagede/'+${chapter.id}}" th:text="${chapter.chapterName}"></a>
         </td>
     </tr>
 </table>

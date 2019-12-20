@@ -3,29 +3,73 @@
       xmlns:layout= "http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
     <meta content="text/html;charset=UTF-8"/>
+    <script src="http://www.jq22.com/jquery/jquery-1.10.2.js"></script>
+    <script type="text/javascript" th:src="@{/hm/pageMe.js}"></script>
     <title>Title</title>
+    <style>
+        /* 外面盒子样式---自己定义 */
+        .page_div{margin:20px 10px 20px 0;color:#666}
+        /* 页数按钮样式 */
+        .page_div button{display:inline-block;min-width:30px;height:28px;cursor:pointer;color:#666;font-size:13px;line-height:28px;background-color:#f9f9f9;border:1px solid #dce0e0;text-align:center;margin:0 4px;-webkit-appearance: none;-moz-appearance: none;appearance: none;}
+        #firstPage,#lastPage,#nextPage,#prePage{width:50px;color:#0073A9;border:1px solid #0073A9}
+        #nextPage,#prePage{width:70px}
+        .page_div .current{background-color:#0073A9;border-color:#0073A9;color:#FFF}
+        /* 页面数量 */
+        .totalPages{margin:0 10px}
+        .totalPages span,.totalSize span{color:#0073A9;margin:0 5px}
+        /*button禁用*/
+        .page_div button:disabled{opacity:.5;cursor:no-drop}
+    </style>
 </head>
 <body>
 <table border="2">
     <thead>
+    <form id="iform" th:method="post" th:object="${book}" th:action="@{/searchform}" >
+
     <tr>
         <td>标题</td>
         <td>封面</td>
         <td>更新时间</td>
     </tr>
+
+    <tr>
+        <td>查找</td>
+        <td>
+            <input type="text" name="title"/>
+        </td>
+        <td>
+            <input type="submit" value="提交" />
+        </td>
+    </tr>
+    </form>
+    </thead>
+    <tbody>
     <tr th:each="book:${booklist}">
         <td >
-            <a th:href="@{'chapter/'+${book.id}}" th:text="${book.title}"></a>
+            <a th:href="@{'/chapter/'+${book.id}}" th:text="${book.title}"></a>
         </td>
         <td >
-            <img  th:src="${book.titlePic}" th:href="@{'chapter/'+${book.id}}"/>
+            <img  th:src="${book.title_pic}" th:href="@{'chapter/'+${book.id}}"/>
         </td>
-        <td th:text="${#dates.format(book.latestTime,'yyyy-MM-dd')}"></td>
+        <td th:text="${#dates.format(book.latest_time,'yyyy-MM-dd')}"></td>
     </tr>
-    </thead>
+    </tbody>
 </table>
+<div id="page" class="page_div"></div>
+<script type="text/javascript" th:inline="javascript">
+    var total = [[${sqlnum}]];
+    var currpage = [[${currpage}]];
+    var totalNum = [[${totalNum}]];
+    $("#page").paging({
+        pageNum: currpage, // 当前页面
+        totalNum: totalNum, // 总页码
+        totalList: total, // 记录总数量
+        callback: function (num) { //回调函数
+            window.location = "index?pageNum="+num;
+        }
+    });
 
-
+</script>
 
 
 
