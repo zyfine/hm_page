@@ -66,7 +66,7 @@ public class HmController {
     }
 
     /**
-     * @param name 名称
+     * @param book 名称
      * @Description: 通过名称查询图书
      * @return:
      * @Author: zyfine
