@@ -196,6 +196,7 @@ public class HmController {
             mv.addObject("sqlnum", sqlnum);
             mv.addObject("currpage", pageNum);
             mv.addObject("totalNum", totalPage);
+            mv.addObject("chapterid", id);
         } catch (Exception e) {
             e.printStackTrace();
         }

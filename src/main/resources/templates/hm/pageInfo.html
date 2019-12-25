@@ -4,7 +4,7 @@
 <head>
     <meta content="text/html;charset=UTF-8"/>
     <script src="http://www.jq22.com/jquery/jquery-1.10.2.js"></script>
-    <script type="text/javascript" th:src="@{/hm/pageMe.js}"></script>
+<!--    <script type="text/javascript" th:src="@{/hm/pageMe.js}"></script>-->
     <title>search</title>
 </head>
 <style>
@@ -22,11 +22,23 @@
     .page_div button:disabled{opacity:.5;cursor:no-drop}
 </style>
 <body>
-<div id="page" class="page_div"></div>
 
 <table border="2">
     <thead>
+    <tr class="trcc">
+        <td >
+            <a onclick="tolastchapter()" >上一章</a>
+            <a onclick="tolastpage()" >上一页</a>
+            <a onclick="tonextpage()" >下一页</a>
+            <a onclick="tonextchapter()" >下一章</a>
+        </td>
+    </tr>
+    </thead>
+</table>
+<table border="2">
+    <thead>
     <tr th:each="page:${pageList}" class="trcc">
+        <td th:text="${page.chapter_name}"></td>
         <td th:switch="${page.url}">
             <img th:if="${#strings.isEmpty(page.url)}" src="/404.gif"/>
             <img th:if="${page.url} == null" src="/404.gif"/>
@@ -35,40 +47,51 @@
     </tr>
     </thead>
 </table>
-<table border="2">
-    <thead>
-    <tr >
-        <td >
-            <a th:href="@{'/chapter/'+${book.id}}" text="上一章"></a>
-            <a th:href="@{'/chapter/'+${book.id}}" text="上一页"></a>
-            <a th:href="@{'/chapter/'+${book.id}}" text="下一页"></a>
-            <a th:href="@{'/chapter/'+${book.id}}" text="上一章"></a>
-        </td>
-    </tr>
-    </thead>
-</table>
-<div id="page1" class="page_div"></div>
+
+<!--<div id="page1" class="page_div"></div>-->
 <script type="text/javascript" th:inline="javascript">
     var total = [[${sqlnum}]];
     var currpage = [[${currpage}]];
     var totalNum = [[${totalNum}]];
-    $("#page").paging({
-        pageNum: currpage, // 当前页面
-        totalNum: totalNum, // 总页码
-        totalList: total, // 记录总数量
-        callback: function (num) { //回调函数
-            window.location.href = "allpage?pageNum="+num;
+    var chapterid = [[${chapterid}]];
+    // $("#page").paging({
+    //     pageNum: currpage, // 当前页面
+    //     totalNum: totalNum, // 总页码
+    //     totalList: total, // 记录总数量
+    //     callback: function (num) { //回调函数
+    //         window.location.href = "pagede/"+chapterid+"?pageNum="+num;
+    //     }
+    // });
+    // $("#page1").paging({
+    //     pageNum: currpage, // 当前页面
+    //     totalNum: totalNum, // 总页码
+    //     totalList: total, // 记录总数量
+    //     callback: function (num) { //回调函数
+    //         window.location.href = "pagede/"+chapterid+"?pageNum="+num;
+    //     }
+    // });
+    function tonextpage() {
+        var num = currpage+1;
+        if(num>totalNum){
+            num = totalNum;
         }
-    });
-    $("#page1").paging({
-        pageNum: currpage, // 当前页面
-        totalNum: totalNum, // 总页码
-        totalList: total, // 记录总数量
-        callback: function (num) { //回调函数
-            window.location.href = "allpage?pageNum="+num;
+        window.location = "/pagede/"+chapterid+"?pageNum="+num;
+    }
+    function tolastpage() {
+        var num = currpage-1;
+        if(num==0){
+            num = 1;
         }
-    });
-
+        window.location = "/pagede/"+chapterid+"?pageNum="+num;
+    }
+    function tonextchapter() {
+        chapterid = chapterid+1;
+        window.location = "/pagede/"+chapterid;
+    }
+    function tolastchapter() {
+        chapterid = chapterid-1;
+        window.location = "/pagede/"+chapterid;
+    }
 </script>
 
 </body>
