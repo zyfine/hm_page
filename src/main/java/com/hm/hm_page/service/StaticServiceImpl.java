@@ -3,6 +3,8 @@ package com.hm.hm_page.service;
 import com.hm.hm_page.common.CommonService;
 import com.hm.hm_page.entity.HmChapter;
 import com.hm.hm_page.entity.HmPage;
+import com.hm.hm_page.util.Constants;
+import com.hm.hm_page.util.StrUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
@@ -28,8 +30,7 @@ public class StaticServiceImpl implements StaticService {
     @Autowired
     private CommonService commonService;
 
-    private static String HM_PATH = "C:\\Users\\jslx\\Desktop\\hm_html";
-    private static String SITE_PATH = "http://111.229.182.162/hm";
+
     /**
      * 生成首页静态页面
      */
@@ -56,7 +57,7 @@ public class StaticServiceImpl implements StaticService {
             context.setVariable("totalNum", totalPage);
 
             /**获取输出目标文件输出流------开始*/
-            String filepath = HM_PATH;
+            String filepath = Constants.HM_PATH;
             System.out.println(filepath);
             File folder = new File(filepath);
             //如果文件夹不存在
@@ -96,7 +97,7 @@ public class StaticServiceImpl implements StaticService {
             context.setVariable("bookinfo", hmBookService.getHmBookDetail(bookid));
 
             /**获取输出目标文件输出流------开始*/
-            String filepath = HM_PATH+File.separator+bookid+File.separator;
+            String filepath = Constants.HM_PATH+File.separator+bookid+File.separator;
 
             File folder = new File(filepath);
             //如果文件夹不存在
@@ -130,20 +131,29 @@ public class StaticServiceImpl implements StaticService {
 
             Context context = new Context();
 
-            String sql = " select url,CONCAT_WS('/','"+SITE_PATH+"',book_name,chapter_name,url) as imgurl from hm_page  where  book_id = "+bookid+" and chapter_id = "+chapterId;
+            String sql = " select url,CONCAT_WS('/','"+Constants.SITE_PATH+"',book_name,chapter_name,url) as imgurl from hm_page  where  book_id = "+bookid+" and chapter_id = "+chapterId;
             List<HashMap> pageList = commonService.selectDataBySql(sql,pageNum,pageSize);
             int sqlnum = commonService.pageDataNum(sql);
             int totalPage = (sqlnum/pageSize);
             if(sqlnum%pageSize!=0){
                 totalPage = (sqlnum/pageSize)+1;
             }
+            String sql1 =
+                    "SELECT min(id) as min,max(id) as max  from hm_chapter c where book_id in " +
+                            " (select book_id from hm_chapter where id = "+chapterId+")";
+            List<HashMap> pageList1 = commonService.selectDataBySql(sql1);
+            int minchapter = StrUtil.getNotNullIntValue(pageList1.get(0).get("min")+"") ;
+            int maxchapter = StrUtil.getNotNullIntValue(pageList1.get(0).get("max")+"") ;
+
             context.setVariable("pageList", pageList);
             context.setVariable("sqlnum", sqlnum);
             context.setVariable("currpage", pageNum);
             context.setVariable("totalNum", totalPage);
-
+            context.setVariable("chapterid", chapterId);
+            context.setVariable("minchapter", minchapter);
+            context.setVariable("maxchapter", maxchapter);
             /**获取输出目标文件输出流------开始*/
-            String filepath = HM_PATH+File.separator+bookid+File.separator+chapterId+File.separator;
+            String filepath = Constants.HM_PATH+File.separator+bookid+File.separator+chapterId+File.separator;
             System.out.println(filepath);
             File folder = new File(filepath);
             //如果文件夹不存在

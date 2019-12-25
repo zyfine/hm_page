@@ -186,17 +186,29 @@ public class HmController {
         int pageSize = 1;
         try{
             String sql = "select * from hm_page where chapter_id = "+id;
+
             List<HashMap> pageList = commonService.selectDataBySql(sql,pageNum,pageSize);
+
             int sqlnum = commonService.pageDataNum(sql);
             int totalPage = (sqlnum/pageSize);
             if(sqlnum%pageSize!=0){
                 totalPage = (sqlnum/pageSize)+1;
             }
+            String sql1 =
+                    "SELECT min(id) as min,max(id) as max  from hm_chapter c where book_id in " +
+                    " (select book_id from hm_chapter where id = "+id+")";
+            List<HashMap> pageList1 = commonService.selectDataBySql(sql1);
+            int minchapter = StrUtil.getNotNullIntValue(pageList1.get(0).get("min")+"") ;
+            int maxchapter = StrUtil.getNotNullIntValue(pageList1.get(0).get("max")+"") ;
+
             mv.addObject("pageList", pageList);
             mv.addObject("sqlnum", sqlnum);
             mv.addObject("currpage", pageNum);
             mv.addObject("totalNum", totalPage);
             mv.addObject("chapterid", id);
+            mv.addObject("minchapter", minchapter);
+            mv.addObject("maxchapter", maxchapter);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
