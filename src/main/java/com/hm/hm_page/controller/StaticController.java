@@ -66,7 +66,7 @@ public class StaticController {
     @RequestMapping(value = "/staticChapterList", method = RequestMethod.GET)
     public String staticChapterList()  {
         try{
-            String sql = " select * from hm_book where id in (1,2,3)";
+            String sql = " select * from hm_book where id in (1,2)";
             List<HashMap> booklist = commonService.selectDataBySql(sql);
             if (booklist!=null&&booklist.size()>0){
                 for (int i = 0; i < booklist.size(); i++) {
@@ -91,7 +91,7 @@ public class StaticController {
     public String staticPageHtml()  {
         int pageSize = 1;
         try{
-            String sql = " select * from hm_chapter  where book_id in (1,2,3)";
+            String sql = " select * from hm_chapter  where book_id in (1,2)";
             List<HashMap> list = commonService.selectDataBySql(sql);
             if (list!=null&&list.size()>0){
                 for (int i = 0; i < list.size(); i++) {

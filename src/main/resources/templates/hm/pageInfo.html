@@ -4,6 +4,7 @@
 <head>
     <meta content="text/html;charset=UTF-8"/>
     <script src="http://www.jq22.com/jquery/jquery-1.10.2.js"></script>
+
     <title>search</title>
 </head>
 <body>
@@ -11,6 +12,8 @@
     <thead>
     <tr class="trcc">
         <td >
+<!--            <a th:href="${#httpServletRequest.getScheme() + '://' + #httpServletRequest.getServerName() + ':' + #request.getServerPort()  + #request.getContextPath() } ">点我啊！</a>-->
+            <a onclick="tolist()" >回目录</a>
             <a onclick="tolastchapter()" >上一章</a>
             <a onclick="tolastpage()" >上一页</a>
             <a onclick="tonextpage()" >下一页</a>
@@ -37,6 +40,10 @@
     var currpage = [[${currpage}]];
     var totalNum = [[${totalNum}]];
     var chapterid = [[${chapterid}]];
+    var bookid = [[${bookid}]];
+    var ctxPath=[[${#httpServletRequest.getScheme() + '://' + #httpServletRequest.getServerName() + ':' + #request.getServerPort()  + #request.getContextPath() }]];
+    console.log(ctxPath);
+
     function tonextpage() {
         var num = currpage+1;
         if(num>totalNum){
@@ -64,6 +71,9 @@
             chapterid = minchapter;
         }
         window.location = "/pagede/"+chapterid;
+    }
+    function tolist() {
+        window.location = "/chapter/"+bookid;
     }
 </script>
 

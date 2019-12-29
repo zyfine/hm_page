@@ -145,6 +145,7 @@ public class StaticServiceImpl implements StaticService {
             int minchapter = StrUtil.getNotNullIntValue(pageList1.get(0).get("min")+"") ;
             int maxchapter = StrUtil.getNotNullIntValue(pageList1.get(0).get("max")+"") ;
 
+
             context.setVariable("pageList", pageList);
             context.setVariable("sqlnum", sqlnum);
             context.setVariable("currpage", pageNum);
@@ -152,6 +153,7 @@ public class StaticServiceImpl implements StaticService {
             context.setVariable("chapterid", chapterId);
             context.setVariable("minchapter", minchapter);
             context.setVariable("maxchapter", maxchapter);
+            context.setVariable("bookid", bookid);
             /**获取输出目标文件输出流------开始*/
             String filepath = Constants.HM_PATH+File.separator+bookid+File.separator+chapterId+File.separator;
             System.out.println(filepath);

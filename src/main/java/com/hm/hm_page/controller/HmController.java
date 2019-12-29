@@ -12,11 +12,14 @@ import com.hm.hm_page.service.StaticService;
 import com.hm.hm_page.util.SqlInjectionTool;
 import com.hm.hm_page.util.StrUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.ClassUtils;
+import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.math.BigDecimal;
 import java.util.*;
 
@@ -200,6 +203,7 @@ public class HmController {
             List<HashMap> pageList1 = commonService.selectDataBySql(sql1);
             int minchapter = StrUtil.getNotNullIntValue(pageList1.get(0).get("min")+"") ;
             int maxchapter = StrUtil.getNotNullIntValue(pageList1.get(0).get("max")+"") ;
+            int bookid = StrUtil.getNotNullIntValue(pageList.get(0).get("book_id")+"") ;
 
             mv.addObject("pageList", pageList);
             mv.addObject("sqlnum", sqlnum);
@@ -208,12 +212,16 @@ public class HmController {
             mv.addObject("chapterid", id);
             mv.addObject("minchapter", minchapter);
             mv.addObject("maxchapter", maxchapter);
-
+            mv.addObject("bookid", bookid);
+//            System.out.print("路径:"+ClassUtils.getDefaultClassLoader().getResource("").getPath());
+            System.out.println();
         } catch (Exception e) {
             e.printStackTrace();
         }
         return mv;
     }
+
+
 //    /**
 //     * @param
 //     * @Description: pagehelper分页列表显示全部book

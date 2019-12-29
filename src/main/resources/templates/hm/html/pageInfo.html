@@ -4,6 +4,7 @@
 <head>
     <meta content="text/html;charset=UTF-8"/>
     <script src="http://www.jq22.com/jquery/jquery-1.10.2.js"></script>
+
     <title>search</title>
 </head>
 
@@ -12,6 +13,7 @@
     <thead>
     <tr class="trcc">
         <td >
+            <a onclick="tolist()" >回目录</a>
             <a onclick="tolastchapter()" >上一章</a>
             <a onclick="tolastpage()" >上一页</a>
             <a onclick="tonextpage()" >下一页</a>
@@ -37,6 +39,9 @@
     var currpage = [[${currpage}]];
     var totalNum = [[${totalNum}]];
     var chapterid = [[${chapterid}]];
+    var bookid = [[${bookid}]];
+    var ctxPath=[[${#httpServletRequest.getScheme() + '://' + #httpServletRequest.getServerName() + ':' + #request.getServerPort()  + #request.getContextPath() }]];
+    console.log(ctxPath);
     function tonextpage() {
         var num = currpage+1;
         if(num>totalNum){
@@ -49,23 +54,25 @@
         if(num==0){
             num = 1;
         }
-        window.location = "index"+num+".html";
+        window.location = "index.html";
     }
     function tonextchapter() {
         chapterid = chapterid+1;
         if(parseInt(chapterid)>parseInt(maxchapter)){
             chapterid = maxchapter;
         }
-        window.location = chapterid+"/index.html";
+        window.location = "../"+bookid+"/"+chapterid+"/index.html";
     }
     function tolastchapter() {
         chapterid = chapterid-1;
         if(parseInt(chapterid)<parseInt(minchapter)){
             chapterid = minchapter;
         }
-        window.location = chapterid+"/index.html";
+        window.location = "../"+bookid+"/"+chapterid+"/index.html";
     }
-
+    function tolist() {
+        window.location = "../"+bookid+"/index.html";
+    }
 </script>
 
 </body>
