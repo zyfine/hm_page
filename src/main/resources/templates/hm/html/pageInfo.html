@@ -40,8 +40,8 @@
     var totalNum = [[${totalNum}]];
     var chapterid = [[${chapterid}]];
     var bookid = [[${bookid}]];
-    var ctxPath=[[${#httpServletRequest.getScheme() + '://' + #httpServletRequest.getServerName() + ':' + #request.getServerPort()  + #request.getContextPath() }]];
-    console.log(ctxPath);
+    // var ctxPath=[[${#httpServletRequest.getScheme() + '://' + #httpServletRequest.getServerName() + ':' + #request.getServerPort()  + #request.getContextPath() }]];
+    // console.log(ctxPath);
     function tonextpage() {
         var num = currpage+1;
         if(num>totalNum){
@@ -61,17 +61,17 @@
         if(parseInt(chapterid)>parseInt(maxchapter)){
             chapterid = maxchapter;
         }
-        window.location = "../"+bookid+"/"+chapterid+"/index.html";
+        window.location = ctxPath+bookid+"/"+chapterid+"/index.html";
     }
     function tolastchapter() {
         chapterid = chapterid-1;
         if(parseInt(chapterid)<parseInt(minchapter)){
             chapterid = minchapter;
         }
-        window.location = "../"+bookid+"/"+chapterid+"/index.html";
+        window.location = ctxPath+bookid+"/"+chapterid+"/index.html";
     }
     function tolist() {
-        window.location = "../"+bookid+"/index.html";
+        window.location = ctxPath+bookid+"/index.html";
     }
 </script>
 

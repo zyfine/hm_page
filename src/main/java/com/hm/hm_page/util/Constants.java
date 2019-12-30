@@ -76,7 +76,10 @@ public class Constants {
 	public static final String USER_SESSION_MODULE = "muduleName";
 
 //	public static String HM_PATH = "C:\\Users\\jslx\\Desktop\\hm_html";
-	public static String HM_PATH = "/Users/zyfine/Desktop/hm_html";
+//	public static String HM_PATH = "/Users/zyfine/Desktop/hm_html";
+	public static String HM_PATH = "D:\\apache-tomcat-7.0.76\\webapps\\hm_html";
+
+
 	public static String SITE_PATH = "http://111.229.182.162/hm";
 
 	
