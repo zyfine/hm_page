@@ -4,11 +4,24 @@
 <head>
     <meta content="text/html;charset=UTF-8"/>
     <script src="http://www.jq22.com/jquery/jquery-1.10.2.js"></script>
-    <script src="../../common.js"></script>
+    <script src="../../pathcof.js"></script>
+
     <title>search</title>
 </head>
+<script type="text/javascript" th:inline="javascript">
+    var maxchapter = [[${maxchapter}]];
+    var minchapter = [[${minchapter}]];
+    var currpage = [[${currpage}]];
+    var totalNum = [[${totalNum}]];
+    var chapterid = [[${chapterid}]];
+    var bookid = [[${bookid}]];
 
+    $(function(){
+        $(".headerpage").load(ctxPath+"resource/header.html");
+    });
+</script>
 <body>
+<div class="headerpage"></div>
 <table border="2">
     <thead>
     <tr class="trcc">
@@ -34,13 +47,6 @@
     </thead>
 </table>
 <script type="text/javascript" th:inline="javascript">
-    var maxchapter = [[${maxchapter}]];
-    var minchapter = [[${minchapter}]];
-    var currpage = [[${currpage}]];
-    var totalNum = [[${totalNum}]];
-    var chapterid = [[${chapterid}]];
-    var bookid = [[${bookid}]];
-
     function tonextpage() {
         var num = currpage+1;
         if(num>totalNum){
@@ -60,20 +66,18 @@
         if(parseInt(chapterid)>parseInt(maxchapter)){
             chapterid = maxchapter;
         }
-        window.location = ctxPath+bookid+"/"+chapterid+"/index.html";
+        window.location.href = ctxPath+bookid+"/"+chapterid+"/index.html";
     }
     function tolastchapter() {
         chapterid = chapterid-1;
         if(parseInt(chapterid)<parseInt(minchapter)){
             chapterid = minchapter;
         }
-        window.location = ctxPath+bookid+"/"+chapterid+"/index.html";
+        window.location.href = ctxPath+bookid+"/"+chapterid+"/index.html";
     }
     function tolist() {
-        window.location = ctxPath+bookid+"/index.html";
+        window.location.href = ctxPath+bookid+"/index.html";
     }
 </script>
-
 </body>
-
 </html>
