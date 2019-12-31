@@ -138,8 +138,7 @@ public class StaticServiceImpl implements StaticService {
             if(sqlnum%pageSize!=0){
                 totalPage = (sqlnum/pageSize)+1;
             }
-            String sql1 =
-                    "SELECT min(id) as min,max(id) as max  from hm_chapter c where book_id in " +
+            String sql1 = "SELECT min(id) as min,max(id) as max  from hm_chapter c where book_id in " +
                             " (select book_id from hm_chapter where id = "+chapterId+")";
             List<HashMap> pageList1 = commonService.selectDataBySql(sql1);
             int minchapter = StrUtil.getNotNullIntValue(pageList1.get(0).get("min")+"") ;
@@ -154,6 +153,7 @@ public class StaticServiceImpl implements StaticService {
             context.setVariable("minchapter", minchapter);
             context.setVariable("maxchapter", maxchapter);
             context.setVariable("bookid", bookid);
+
             /**获取输出目标文件输出流------开始*/
             String filepath = Constants.HM_PATH+File.separator+bookid+File.separator+chapterId+File.separator;
             System.out.println(filepath);

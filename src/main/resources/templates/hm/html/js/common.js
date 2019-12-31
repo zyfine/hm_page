@@ -1,0 +1,1 @@
+;var ctxPath = "http://localhost/hm_html/";
