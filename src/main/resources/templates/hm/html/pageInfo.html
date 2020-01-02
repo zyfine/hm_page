@@ -15,7 +15,9 @@
     var totalNum = [[${totalNum}]];
     var chapterid = [[${chapterid}]];
     var bookid = [[${bookid}]];
-
+    if(ctxPath==null||ctxPath=="undefined"){
+        ctxPath = "/";
+    }
     $(function(){
         $(".headerpage").load(ctxPath+"resource/header.html");
     });

@@ -14,7 +14,9 @@
     var total = [[${sqlnum}]];
     var currpage = [[${currpage}]];
     var totalNum = [[${totalNum}]];
-
+    if(ctxPath==null||ctxPath=="undefined"){
+        ctxPath = "/";
+    }
     $(function(){
         $(".headerpage").load(ctxPath+"resource/header.html");
         // $(".footerpage").load("footer.html");
