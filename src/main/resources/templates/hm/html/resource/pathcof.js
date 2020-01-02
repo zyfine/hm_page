@@ -1,1 +1,0 @@
-;var ctxPath = "/hm_html/";
