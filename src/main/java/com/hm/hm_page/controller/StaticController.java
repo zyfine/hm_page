@@ -89,7 +89,7 @@ public class StaticController {
      */
     @RequestMapping(value = "/staticPageHtml", method = RequestMethod.GET)
     public String staticPageHtml()  {
-        int pageSize = 1;
+        int pageSize = 3;
         try{
             String sql = " select * from hm_chapter  where book_id in (1,2)";
             List<HashMap> list = commonService.selectDataBySql(sql);

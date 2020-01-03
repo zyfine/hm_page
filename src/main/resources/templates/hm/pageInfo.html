@@ -25,7 +25,7 @@
 <table border="2">
     <thead>
     <tr th:each="page:${pageList}" class="trcc">
-        <td th:text="${page.chapter_name}"></td>
+<!--        <td th:text="${page.chapter_name}"></td>-->
         <td th:switch="${page.url}">
             <img th:if="${#strings.isEmpty(page.url)}" src="/404.gif"/>
             <img th:if="${page.url} == null" src="/404.gif"/>

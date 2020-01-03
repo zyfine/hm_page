@@ -53,8 +53,11 @@
         var num = currpage+1;
         if(num>totalNum){
             num = totalNum;
+            alert("最后一页了");
         }
         window.location = "index"+num+".html";
+
+
     }
     function tolastpage() {
         var num = currpage-1;
